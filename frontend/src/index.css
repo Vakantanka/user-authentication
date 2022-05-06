@@ -1,0 +1,291 @@
+@charset "UTF-8";
+/* CSS reset */
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@100;400;500;700;900&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  outline: none;
+  text-decoration: none;
+  font-family: inherit;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+ol,
+ul,
+li {
+  list-style: none;
+  display: inline-block;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+a img {
+  border: none;
+}
+
+button,
+a {
+  cursor: pointer;
+  color: inherit;
+}
+
+/* App */
+:root {
+  --main-bg-color: hsl(228, 28%, 20%);
+  --blue-text: #22a2bd;
+  --black-text: hsl(228, 28%, 20%);
+  --white-text: #fff;
+  --accent-color: rgb(241, 216, 75);
+  --border-style: 1px dotted;
+}
+
+body {
+  font-family: 'Raleway', sans-serif;
+  font-size: 20px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-transform: none;
+  font-weight: 900;
+  letter-spacing: 0.0625em;
+  text-align: center;
+  margin: .5rem;
+}
+
+header {
+  text-align: center;
+}
+
+header nav {
+  background-color: var(--main-bg-color);
+  padding: 0;
+}
+
+header nav li.active {
+  color: var(--white-text);
+  background: var(--blue-text);
+}
+
+header nav a {
+  display: inline-block;
+  color: var(--white-text);
+  padding: 1rem 2rem;
+  text-decoration: none;
+  font-weight: 900;
+  letter-spacing: 0.1625em;
+}
+
+header nav a:hover {
+  background: var(--blue-text);
+  color: var(--black-text);
+}
+
+main {
+  color: var(--black-text);
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0;
+  line-height: 1.5rem;
+}
+
+main section {
+  margin: 0 auto;
+  width: 77%;
+}
+
+main section {
+  margin-bottom: 6rem;
+}
+
+main a {
+  color: var(--blue-text);
+  font-weight: 700;
+}
+
+main h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-top: 1rem;
+}
+
+main h3 {
+  font-size: 1.75rem;
+  margin: 2rem 0 0 0;
+}
+
+main h4 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+main li > h4 {
+  display: inline-block;
+}
+
+main hr {
+  border-color: var(--blue-text);
+  margin: .75rem 0 1rem 0;
+}
+
+main p {
+  line-height: 2rem;
+  margin-bottom: 1rem;
+}
+
+main li {
+  display: block;
+}
+
+main li:before {
+  content: '֍';
+  margin-right: .5rem;
+}
+
+main em {
+  font-weight: 600;
+}
+
+form#contactForm {
+  position: relative;
+  margin: 24px auto;
+  padding: 24px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  color: var(--black-text);
+}
+
+form#contactForm div.formField {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+form#contactForm div.formField label.Mui-focused {
+  color: var(--blue-text);
+}
+
+form#contactForm div.formField div.Mui-focused fieldset {
+  border-color: var(--blue-text);
+}
+
+form#contactForm button {
+  border-color: var(--blue-text);
+  background-color: var(--white-text);
+  color: var(--blue-text);
+  font-weight: bold;
+  height: 3rem;
+  margin-bottom: 24px;
+}
+
+form#contactForm button:hover {
+  color: var(--white-text);
+  background-color: var(--blue-text);
+}
+
+form#contactForm div.errorMessage {
+  color: red;
+  font-size: .7rem;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+button.openContact {
+  border-color: var(--blue-text);
+  background-color: var(--white-text);
+  color: var(--blue-text);
+  font-weight: bold;
+  height: 3rem;
+}
+
+button.openContact:hover {
+  color: var(--white-text);
+  background-color: var(--black-text);
+  border-color: var(--black-text);
+}
+
+@media screen and (max-width: 519px) {
+  form {
+    width: 90vw;
+  }
+  main h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-top: 1rem;
+  }
+  main h3 {
+    font-size: 1.25rem;
+    margin: 2rem 0 0 0;
+  }
+}
+
+@media screen and (min-width: 520px) {
+  form {
+    width: 70vw;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  form {
+    width: 50vw;
+  }
+}
+
+@media screen and (min-width: 960px) {
+  form {
+    width: 500px;
+  }
+}
+
+footer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  gap: 240px;
+  background: var(--blue-text);
+  color: var(--white-text);
+  padding: 3rem 0;
+}
+
+footer a {
+  color: var(--black-text);
+  font-weight: 700;
+}
+
+footer a:hover {
+  color: var(--blue-text);
+}
+
+.footer-below {
+  background: var(--black-text);
+  color: var(--white-text);
+  text-align: center;
+  padding: 1rem 0;
+}
+/*# sourceMappingURL=index.css.map */
