@@ -32,6 +32,7 @@ const pages = [
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const ResponsiveAppBar = ({ signOut, loggedIn }) => {
+ 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -102,7 +103,7 @@ const ResponsiveAppBar = ({ signOut, loggedIn }) => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
+              {/* {pages.map((page) => (
                 <MenuItem key={page.url} onClick={handleCloseNavMenu}>
                   <Link to={page.url}>
                     <Typography textAlign="center">
@@ -110,29 +111,59 @@ const ResponsiveAppBar = ({ signOut, loggedIn }) => {
                     </Typography>
                   </Link>
                 </MenuItem>
-              ))}
+              ))} */}
+              { loggedIn ? 
+                <>
+                  <MenuItem onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center" onClick={signOut}>
+                       Sign Out
+                    </Typography>
+                  </MenuItem>
+                </>
+                : 
+                <>
+                  <MenuItem onClick={handleCloseNavMenu}>
+                    <Link to="signIn">
+                      <Typography textAlign="center">
+                          Sign In
+                      </Typography>
+                    </Link>
+                  </MenuItem>
+                  <MenuItem onClick={handleCloseNavMenu}>
+                    <Link to="signUp">
+                      <Typography textAlign="center">
+                          Sign Up
+                      </Typography>
+                    </Link>
+                  </MenuItem>
+                </>
+              }
             </Menu>
           </Box>
           <FilterVintageTwoToneIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href=""
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            LOGO
-          </Typography>
+          <Link to="/">
+            <Typography
+              variant="h5"
+              noWrap
+              component="a"
+              sx={{
+                mr: 2,
+                display: { xs: 'flex', md: 'none' },
+                flexGrow: 1,
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                letterSpacing: '.3rem',
+                color: 'inherit',
+                textDecoration: 'none',
+              }}
+            >
+              LOGO
+            </Typography>
+          </Link>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+{/* 
+
+
             {pages.map((page) => (
               <Link to={page.url}>
                 <Button
@@ -143,7 +174,34 @@ const ResponsiveAppBar = ({ signOut, loggedIn }) => {
                   {page.name}
                 </Button>
               </Link>
-            ))}
+            ))} */}
+              { loggedIn ? 
+                <>
+                  <MenuItem onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center" onClick={signOut}>
+                      Sign Out
+                    </Typography>
+                  </MenuItem>
+                </>
+                : 
+                <>
+                  <MenuItem onClick={handleCloseNavMenu}>
+                    <Link to="signIn">
+                      <Typography textAlign="center">
+                          Sign In
+                      </Typography>
+                    </Link>
+                  </MenuItem>
+                  <MenuItem onClick={handleCloseNavMenu}>
+                    <Link to="signUp">
+                      <Typography textAlign="center">
+                          Sign Up
+                      </Typography>
+                    </Link>
+                  </MenuItem>
+                </>
+              }
+
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
