@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { apiGetContent } from '../api/auth.api'
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const http = require('axios')
+const theme = createTheme();
 
 const Homepage = ({ loggedIn, setStatus }) => {
   const [content, setContent] = useState(false);
@@ -26,7 +29,8 @@ const Homepage = ({ loggedIn, setStatus }) => {
   };
 
   return (
-    <section className="home">
+    <ThemeProvider theme={theme}>
+      <Container component="main" maxWidth="xs">
       { loggedIn ? 
         <>
         <h2>Welcome</h2>
@@ -42,7 +46,8 @@ const Homepage = ({ loggedIn, setStatus }) => {
           {content}
         </section>
       }
-    </section>
+      </Container>
+    </ThemeProvider>
   );
 };
 

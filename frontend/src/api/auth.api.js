@@ -1,14 +1,14 @@
 const http = require('axios')
 const myBackEndURL = "http://localhost:4000/api";
 
-const apiSignIn = async (e, credential, password) => {
+const apiSignIn = async (credential) => {
   try {
     const response = await http.post(
       myBackEndURL + "/user/signIn",
       {},
       {
         headers: {
-          authorization: credential + ":::" + password,
+          authorization: credential.credential + ":::" + credential.password,
         },
       }
     );

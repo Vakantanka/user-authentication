@@ -18,7 +18,6 @@ const  apiSignIn = async (req, res, next) => {
    } else {
       option = { username: credential };
    }
-
    try {
       const existingUser = await UserService.getAuthenticate(option, password);
       if (!existingUser) return res.sendStatus(403);
