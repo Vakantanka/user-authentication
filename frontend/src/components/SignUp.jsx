@@ -28,12 +28,11 @@ export default function SignUp({setStatus}) {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const [errors, setErrors] = useState({
-    firstName: '',
-    lastName: '',
-    username: '',
-    email: '',
-    password: ' ',
-    confirmPassword: ' ',
+    firstName: 'Please fill out the name field!',
+    username: 'Choose a unique username!',
+    email: 'Please enter your email address',
+    password: 'Choose a strong password!',
+    confirmPassword: 'Confirm your password!',
   });
 
   const handleChange = async (event) => {
@@ -53,7 +52,6 @@ export default function SignUp({setStatus}) {
         setFirstName(value);
         break;
       case 'lastName': 
-        updatedErrors.lastName = '';
         setLastName(value);
         break;
       case 'username': 
@@ -259,6 +257,7 @@ export default function SignUp({setStatus}) {
 
             <div className="errorMessage">
               {errors.firstName && <span>{errors.firstName}</span>}
+              {errors.username && <span>{errors.username}</span>}
               {errors.email && <span>{errors.email}</span>}
               {errors.password && <span>{errors.password}</span>}
               {errors.confirmPassword && <span>{errors.confirmPassword}</span>}
