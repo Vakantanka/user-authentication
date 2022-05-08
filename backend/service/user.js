@@ -2,6 +2,7 @@ const User = require("../model/User");
 const authEntity = require("../model/authEntity");
 const Reset = require("../model/Reset");
 const nodemailer = require("nodemailer");
+const crypto = require('crypto');
 
 const contactEmail = nodemailer.createTransport({
   service: 'gmail',
@@ -41,9 +42,9 @@ const saveUser = async (userdata) => {
   try {
     const user = new User(userdata);
     const newUser = await user.save();  
-    const entity = new authEntity({username: newUser.username, userId: newUser.id});
+    const entity = new authEntity({userId: newUser._id, secretKey: crypto.randomBytes(256).toString('hex')});
     const newEntity = await entity.save();
-
+    console.log(newEntity.secretKey);
     const mail = {
       from: process.env.MAIL,
       to: newUser.email,
@@ -51,7 +52,7 @@ const saveUser = async (userdata) => {
       html: `
       <p>Dear ${newUser.name}!</p>
       <p>You are registered our site with your email: ${newUser.email}</p>
-      <p>Please follow this link, to confirm your registration: <a href="http://localhost:3000/confirm?code=${newEntity._id}">follow this link</a></p>
+      <p>Please follow this link, to confirm your registration: <a href="http://localhost:3000/confirm?code=${newEntity.secretKey}">follow this link</a></p>
       <p>Thank you!</p>`,
     };
     contactEmail.sendMail(mail, (error) => {
@@ -91,7 +92,8 @@ const getAuthenticate = async (option, password) => {
 
 const getEntity = async (code) => {
   try {
-    const entity = await authEntity.findById(code);
+    const entity = await authEntity.findOne({secretKey: code});
+    console.log(entity);
     const match = await User.findByIdAndUpdate(entity.userId, { verified: true });
     return match;
   } catch (error) {

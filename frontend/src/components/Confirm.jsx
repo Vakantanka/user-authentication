@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { apiConfirm } from '../api/nogoogleauth.api';
+import { apiConfirm } from '../api/auth.api';
 import Button from '@mui/material/Button';
 
 const Confirm = ({ setStatus }) => {

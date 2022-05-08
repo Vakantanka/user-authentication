@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { apiReset } from '../api/nogoogleauth.api';
+import { apiReset } from '../api/auth.api';
 
 const Reset = ({setStatus}) => {
   const [sendStatus, setSendStatus] = useState(false);

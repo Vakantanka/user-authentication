@@ -33,18 +33,19 @@ const  apiSignIn = async (req, res, next) => {
 }
 
 const  apiSignUp = async (req, res, next) => {
-   if (!req.body.name || !req.body.username || !req.body.email || !req.body.password) return res.sendStatus(401);
+   console.log(req.body);
+   if (!req.body.firstName || !req.body.lastName || !req.body.username || !req.body.email || !req.body.password) return res.sendStatus(401);
 
    const regexEmail = /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,15}$/;
    const regexUsername = /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/;
-   if (req.body.name.length < 5) return res.sendStatus(403);
+   if (req.body.firstName.length < 5) return res.sendStatus(403);
    if (!regexUsername.test(req.body.username)) return res.sendStatus(403);
    if (!regexEmail.test(req.body.email)) return res.sendStatus(403);
    if (req.body.password.length < 5) return res.sendStatus(403);
 
-
    let option = { $or: [{email: req.body.email}, {username: req.body.username}] };
    const existingUser = await UserService.getUserByData(option);
+   console.log(existingUser);
    if (existingUser.length === 1) return res.sendStatus(409);
 
    const user = await UserService.saveUser(req.body);
@@ -87,6 +88,7 @@ const apiFindUserByEmail = async (req, res, next) => {
 
 const  apiConfirm = async (req, res, next) => {
    if (!req.body.code) return res.sendStatus(401);
+   console.log(req.body.code);
    try {
       const existingEntity = await UserService.getEntity(req.body.code);
       if (existingEntity.length === 1) return res.sendStatus(404);

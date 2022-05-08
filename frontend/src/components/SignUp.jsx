@@ -1,24 +1,54 @@
-import React, { useState } from "react";
+import * as React from 'react';
+import { useState } from 'react';
+import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import { apiSignUp, apiFindUserByEmail, apiFindUserByUsername } from '../api/nogoogleauth.api';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-const SignUp = ({setStatus}) => {
+import { apiSignUp, apiFindUserByEmail, apiFindUserByUsername } from '../api/auth.api';
+
+function Copyright(props) {
+  return (
+    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+      {'Copyright © '}
+      <Link color="inherit" href="https://metaflora.hu/">
+        MetaFlóra
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
+
+const theme = createTheme();
+
+export default function SignUp({setStatus}) {
   const [sendStatus, setSendStatus] = useState(false);
   const [signedUp, setSignedUp] = useState(false);
   
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const [errors, setErrors] = useState({
-    name: 'Please, fill out the name field!',
-    username: 'Please, fill out the username field!',
-    email: 'Please, fill out the email field!',
-    password: 'Choose a strong password!',
-    confirmPassword: 'Please, confirm the password before send form data!',
+    firstName: '',
+    lastName: '',
+    username: '',
+    email: '',
+    password: ' ',
+    confirmPassword: ' ',
   });
 
   const handleChange = async (event) => {
@@ -29,13 +59,17 @@ const SignUp = ({setStatus}) => {
     let updatedErrors = errors
 
     switch (name) {
-      case 'name': 
+      case 'firstName': 
         if (value.length < 5) {
-          updatedErrors.name = 'The name must be 5 characters length!'
+          updatedErrors.firstName = 'The name must be 5 characters length!'
         } else {
-          updatedErrors.name = '';
+          updatedErrors.firstName = '';
         }
-        setName(value);
+        setFirstName(value);
+        break;
+      case 'lastName': 
+        updatedErrors.lastName = '';
+        setLastName(value);
         break;
       case 'username': 
         if (!regexUsername.test(value)) {
@@ -95,13 +129,31 @@ const SignUp = ({setStatus}) => {
     })
   };
 
-  const signUp = async (e) => {
-    e.preventDefault();
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    console.log({
+      email: data.get('email'),
+      password: data.get('password'),
+    });
+  };
+
+  const signUp = async (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const elements = {
+      firstName: data.get('firstName'),
+      lastName: data.get('lastName'),
+      username: data.get('username'),
+      email: data.get('email'),
+      password: data.get('password')
+    }
     try {
-      const response = await apiSignUp(e.target.elements);
+      const response = await apiSignUp(elements);
       if (response.data) {
         if (response.status === 200) {
-          setName("");
+          setFirstName("");
+          setLastName("");
           setUsername("");
           setEmail("");
           setPassword("");
@@ -138,31 +190,133 @@ const SignUp = ({setStatus}) => {
         <p>You have successfully registered the site. Please, verify your email to confirm your registration.</p>
       </section>
     :
-      <>
-      <h2>Sign Up</h2>
-      <form onSubmit={signUp} id="contactForm">
-        <div className="errorMessage">{errors.name || " "}</div>
-        <TextField type="text" id="name" name="name" label="Name " variant="outlined" value={name} onChange={handleChange} required className="formField TextField" />
+    <>
+    <ThemeProvider theme={theme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign up
+          </Typography>
+          <Box component="form" noValidate onSubmit={signUp} sx={{ mt: 3 }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  value={firstName} onChange={handleChange} 
+                  autoComplete="given-name"
+                  name="firstName"
+                  required
+                  fullWidth
+                  id="firstName"
+                  label="First Name"
+                  autoFocus
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  value={lastName} onChange={handleChange} 
+                  required
+                  fullWidth
+                  id="lastName"
+                  label="Last Name"
+                  name="lastName"
+                  autoComplete="family-name"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  value={username} onChange={handleChange} 
+                  required
+                  fullWidth
+                  id="username"
+                  label="Username"
+                  name="username"
+                  autoComplete="username"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  value={email} onChange={handleChange} 
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  value={password} onChange={handleChange}  
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="new-password"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  value={confirmPassword} onChange={handleChange}  
+                  required
+                  fullWidth
+                  name="confirmPassword"
+                  label="Confirm password"
+                  type="password"
+                  id="confirmPassword"
+                  autoComplete="new-password"
+                />
+              </Grid>
+              {/* <Grid item xs={12}>
+                <FormControlLabel
+                control={<Checkbox value="allowExtraEmails" color="primary" />}
+                label="I want to receive inspiration, marketing promotions and updates via email."
+                />
+              </Grid> */}
+            </Grid>
 
-        <div className="errorMessage">{errors.username  || " "}</div>
-        <TextField type="text" id="username" name="username" label="Username " variant="outlined" value={username} onChange={handleChange} required className="formField TextField" />
+            <div className="errorMessage">
+              {errors.firstName && <span>{errors.firstName}</span>}
+              {errors.email && <span>{errors.email}</span>}
+              {errors.password && <span>{errors.password}</span>}
+              {errors.confirmPassword && <span>{errors.confirmPassword}</span>}
+            </div>
 
-        <div className="errorMessage">{errors.email || " "}</div>
-        <TextField type="email" id="email" name="email" label="Email " variant="outlined" value={email} onChange={handleChange} required className="formField" />
-
-        <div className="errorMessage">{errors.password || " "}</div>
-        <TextField type="password" id="password" name="password" label="Password " variant="outlined" value={password} onChange={handleChange}  className="formField" />
-
-        <div className="errorMessage">{errors.confirmPassword || " "}</div>
-        <TextField type="password" id="confirmPassword" name="confirmPassword" label="Confirm password " variant="outlined" value={confirmPassword} onChange={handleChange}  className="formField" />
-
-        <div className="errorMessage"> </div>
-        <Button variant="outlined" type="submit" disabled={!sendStatus}>Sign Up</Button>
-      </form>
-      </>
-    }
+            <Button
+              disabled={!sendStatus}
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign Up
+            </Button>
+            <Grid container justifyContent="flex-end">
+              <Grid item>
+                <Link href="#" variant="body2">
+                  Already have an account? Sign in
+                </Link>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+        <Copyright sx={{ mt: 5 }} />
+      </Container>
+    </ThemeProvider>
     </>
-  );
-};
-
-export default SignUp;
+  }
+  </>
+);
+}

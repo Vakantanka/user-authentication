@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { apiGetContent } from '../api/nogoogleauth.api'
+import { apiGetContent } from '../api/auth.api'
 
 const http = require('axios')
 
