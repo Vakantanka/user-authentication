@@ -122,8 +122,8 @@ const apiReset = async (elements) => {
     const response = await http.post(
       myBackEndURL + "/user/reset",
       {
-        code: code.value,
-        password: password.value
+        code: code,
+        password: password
       }
       );
     console.log("response");

@@ -104,7 +104,7 @@ const getEntity = async (code) => {
 const passwordReset = async (userdata) => {
   try {
     const user = await User.findOne(userdata);
-    const reset = new Reset({username: user.username, userId: user._id});
+    const reset = new Reset({userId: user._id, secretKey: crypto.randomBytes(256).toString('hex')});
     const newReset = await reset.save();
 
     const mail = {
@@ -114,7 +114,7 @@ const passwordReset = async (userdata) => {
       html: `
       <p>Dear ${user.name}!</p>
       <p>You have sent a password reset message.</p>
-      <p>Please follow this link, to create new password: <a href="http://localhost:3000/reset?code=${newReset._id}">reset password</a></p>
+      <p>Please follow this link, to create new password: <a href="http://localhost:3000/reset?code=${newReset.secretKey}">reset password</a></p>
       <p>Thank you!</p>`,
     };
     contactEmail.sendMail(mail, (error) => {
@@ -131,7 +131,7 @@ const passwordReset = async (userdata) => {
 
 const getReset = async (code, password) => {
   try {
-    const reset = await Reset.findById(code);
+    const reset = await Reset.findOne({secretKey: code});
     const user = await User.findById(reset.userId);
     user.password = password;
     await user.save();
