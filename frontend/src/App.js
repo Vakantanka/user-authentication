@@ -3,12 +3,10 @@ import { Routes, Route } from "react-router-dom";
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 import Homepage from './components/Homepage';
-// import Header from './components/Header';
 import Confirm from './components/Confirm';
-import PasswordReset from './components/PasswordReset';
-import Reset from './components/Reset';
+import PasswordResetForm from './components/PasswordResetForm';
+import PasswordChange from './components/PasswordChange';
 
-// import { apiSignOut } from './api/nogoogleauth.api';
 import Message from './components/Message';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
@@ -104,7 +102,6 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-        {/* <Header signOut={signOut} loggedIn={loggedIn} /> */}
       <ResponsiveAppBar signOut={signOut} loggedIn={loggedIn} />
       { status && <Message status={status} setStatus={setStatus} /> }
       <Routes>
@@ -125,9 +122,9 @@ function App() {
           }
         />
         <Route
-          path="passwordReset"
+          path="passwordResetForm"
           element={
-            <PasswordReset
+            <PasswordResetForm
               setStatus={setStatus}
             />
           }
@@ -135,7 +132,7 @@ function App() {
         <Route
           path="reset"
           element={
-            <Reset
+            <PasswordChange
               setStatus={setStatus}
             />
           }

@@ -156,7 +156,7 @@ export default function SignIn({setStatus, loggedIn, setLoggedIn}) {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="passwordReset" variant="body2">
+              <Link href="passwordResetForm" variant="body2">
                 Forgot password?
               </Link>
             </Grid>

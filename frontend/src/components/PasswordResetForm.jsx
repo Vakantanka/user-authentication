@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { apiFindUserByEmail, apiPasswordReset } from '../api/auth.api';
 
-export default function PasswordReset({setStatus}) {
+export default function PasswordResetForm({setStatus}) {
   const [sendStatus, setSendStatus] = useState(false);
   const [reseted, setReseted] = useState(false);
   const [email, setEmail] = useState("");

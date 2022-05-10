@@ -44,7 +44,6 @@ const saveUser = async (userdata) => {
     const newUser = await user.save();  
     const entity = new authEntity({userId: newUser._id, secretKey: crypto.randomBytes(256).toString('hex')});
     const newEntity = await entity.save();
-    console.log(newEntity.secretKey);
     const mail = {
       from: process.env.MAIL,
       to: newUser.email,
@@ -93,7 +92,6 @@ const getAuthenticate = async (option, password) => {
 const getEntity = async (code) => {
   try {
     const entity = await authEntity.findOne({secretKey: code});
-    console.log(entity);
     const match = await User.findByIdAndUpdate(entity.userId, { verified: true });
     return match;
   } catch (error) {

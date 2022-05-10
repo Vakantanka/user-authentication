@@ -118,7 +118,6 @@ const  apiReset = async (req, res, next) => {
       if (!existingReset) return res.sendStatus(404);
       res.sendStatus(200);
    } catch (error) {
-      console.log(error);
       res.sendStatus(400);
    }
 }

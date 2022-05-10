@@ -28,13 +28,13 @@ const Homepage = ({ loggedIn, setStatus }) => {
       { loggedIn ? 
         <>
         <h2>Welcome</h2>
-        <button onClick={() => getContent('/private')}>Private content</button>
+        {/* <button onClick={() => getContent('/private')}>Private content</button> */}
         </>
         : 
         <>
         </>
       }
-      <button onClick={() => getContent('/public')}>Public content</button>
+      {/* <button onClick={() => getContent('/public')}>Public content</button> */}
       { content && 
         <section className="content">
           {content}
