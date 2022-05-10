@@ -4,7 +4,10 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 const userSchema = Schema({
-  name: {
+  firstName: {
+    type: String
+  },
+  lastName: {
     type: String
   },
   username: {

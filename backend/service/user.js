@@ -50,7 +50,7 @@ const saveUser = async (userdata) => {
       to: newUser.email,
       subject: "Registration message",
       html: `
-      <p>Dear ${newUser.name}!</p>
+      <p>Dear ${newUser.firstName}!</p>
       <p>You are registered our site with your email: ${newUser.email}</p>
       <p>Please follow this link, to confirm your registration: <a href="http://localhost:3000/confirm?code=${newEntity.secretKey}">follow this link</a></p>
       <p>Thank you!</p>`,
@@ -112,7 +112,7 @@ const passwordReset = async (userdata) => {
       to: user.email,
       subject: "Reset password message",
       html: `
-      <p>Dear ${user.name}!</p>
+      <p>Dear ${user.firstName}!</p>
       <p>You have sent a password reset message.</p>
       <p>Please follow this link, to create new password: <a href="http://localhost:3000/reset?code=${newReset.secretKey}">reset password</a></p>
       <p>Thank you!</p>`,
