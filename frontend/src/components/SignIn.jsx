@@ -10,15 +10,11 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { apiSignIn } from '../api/auth.api';
 
-const theme = createTheme();
-
 export default function SignIn({setStatus, loggedIn, setLoggedIn}) {
   const [sendStatus, setSendStatus] = useState(false);
-
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
 
@@ -105,75 +101,73 @@ export default function SignIn({setStatus, loggedIn, setLoggedIn}) {
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <Box component="form" onSubmit={signIn} noValidate sx={{ mt: 1 }}>
-            <TextField
-              value={credential} onChange={handleChange} 
-              margin="normal"
-              required
-              fullWidth
-              id="credential"
-              label="Username or Email Address"
-              name="credential"
-              autoComplete="credential"
-              autoFocus
-            />
-            <TextField
-              value={password} onChange={handleChange}  
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <div className="errorMessage">
-              {errors.credential && <span>{errors.credential}</span>}
-              {errors.password && <span>{errors.password}</span>}
-            </div>
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <Box
+        sx={{
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign in
+        </Typography>
+        <Box component="form" onSubmit={signIn} noValidate sx={{ mt: 1 }}>
+          <TextField
+            value={credential} onChange={handleChange} 
+            margin="normal"
+            required
+            fullWidth
+            id="credential"
+            label="Username or Email Address"
+            name="credential"
+            autoComplete="credential"
+            autoFocus
+          />
+          <TextField
+            value={password} onChange={handleChange}  
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+          />
+          <div className="errorMessage">
+            {errors.credential && <span>{errors.credential}</span>}
+            {errors.password && <span>{errors.password}</span>}
+          </div>
 
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              disabled={!sendStatus}
-            >
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="passwordReset" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="signUp" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+            disabled={!sendStatus}
+          >
+            Sign In
+          </Button>
+          <Grid container>
+            <Grid item xs>
+              <Link href="passwordReset" variant="body2">
+                Forgot password?
+              </Link>
             </Grid>
-          </Box>
+            <Grid item>
+              <Link href="signUp" variant="body2">
+                {"Don't have an account? Sign Up"}
+              </Link>
+            </Grid>
+          </Grid>
         </Box>
-      </Container>
-    </ThemeProvider>
+      </Box>
+    </Container>
   );
 }

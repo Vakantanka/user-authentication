@@ -13,6 +13,18 @@ import Message from './components/Message';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import ResponsiveAppBar from './components/ResponsiveAppBar';
+import CssBaseline from '@mui/material/CssBaseline';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import purple from '@mui/material/colors/purple';
+
+const theme = createTheme({
+  palette: {
+    primary: purple,
+  },
+});
 
 function App() {
 
@@ -37,9 +49,42 @@ function App() {
       </Typography>
     );
   }
-      
+
+  function StickyFooter() {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          // minHeight: '100vh',
+          width: '100vw',
+          position: 'absolute',
+          bottom: '0'
+        }}
+      >
+        <CssBaseline />
+        <Box
+          component="footer"
+          sx={{
+            py: 3,
+            px: 2,
+            mt: 'auto',
+            backgroundColor: (theme) =>
+              theme.palette.mode === 'light'
+                ? theme.palette.grey[200]
+                : theme.palette.grey[800],
+          }}
+        >
+          <Container maxWidth="sm">
+            <Copyright />
+          </Container>
+        </Box>
+      </Box>
+    );
+  }
+
   return (
-    <>
+    <ThemeProvider theme={theme}>
         {/* <Header signOut={signOut} loggedIn={loggedIn} /> */}
       <ResponsiveAppBar signOut={signOut} loggedIn={loggedIn} />
       { status && <Message status={status} setStatus={setStatus} /> }
@@ -89,8 +134,8 @@ function App() {
           }
         />
       </Routes>
-      <Copyright />
-    </>
+      <StickyFooter />
+    </ThemeProvider>
   );
 }
 

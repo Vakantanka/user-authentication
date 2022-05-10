@@ -11,7 +11,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import FilterVintageTwoToneIcon from '@mui/icons-material/FilterVintageTwoTone';
 import { Link } from "react-router-dom";
 
@@ -29,6 +28,7 @@ const pages = [
     url: 'signOut'
   }
 ];
+
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const ResponsiveAppBar = ({ signOut, loggedIn }) => {
