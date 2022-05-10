@@ -136,4 +136,4 @@ const apiReset = async (elements) => {
   }
 }
 
-module.exports = { apiSignIn, apiSignUp, /*apiSignOut,*/ apiGetContent, apiFindUserByUsername, apiFindUserByEmail, apiConfirm, apiPasswordReset, apiChangePassword, apiReset }
+module.exports = { apiSignIn, apiSignUp, apiGetContent, apiFindUserByUsername, apiFindUserByEmail, apiConfirm, apiPasswordReset, apiChangePassword, apiReset }

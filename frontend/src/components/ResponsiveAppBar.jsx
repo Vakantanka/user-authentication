@@ -60,7 +60,6 @@ const ResponsiveAppBar = ({ signOut, loggedIn }) => {
             <Typography
               variant="h6"
               noWrap
-              component="a"
               sx={{
                 mr: 2,
                 display: { xs: 'none', md: 'flex' },
@@ -83,7 +82,7 @@ const ResponsiveAppBar = ({ signOut, loggedIn }) => {
               onClick={handleOpenNavMenu}
               color="inherit"
             >
-              <MenuIcon />
+            <MenuIcon />
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -103,25 +102,16 @@ const ResponsiveAppBar = ({ signOut, loggedIn }) => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {/* {pages.map((page) => (
-                <MenuItem key={page.url} onClick={handleCloseNavMenu}>
-                  <Link to={page.url}>
-                    <Typography textAlign="center">
-                        {page.name}
-                    </Typography>
-                  </Link>
-                </MenuItem>
-              ))} */}
               { loggedIn ? 
-                <>
+                <div>
                   <MenuItem onClick={handleCloseNavMenu}>
                     <Typography textAlign="center" onClick={signOut}>
                        Sign Out
                     </Typography>
                   </MenuItem>
-                </>
+                </div>
                 : 
-                <>
+                <div>
                   <MenuItem onClick={handleCloseNavMenu}>
                     <Link to="signIn">
                       <Typography textAlign="center">
@@ -136,7 +126,7 @@ const ResponsiveAppBar = ({ signOut, loggedIn }) => {
                       </Typography>
                     </Link>
                   </MenuItem>
-                </>
+                </div>
               }
             </Menu>
           </Box>
@@ -145,7 +135,7 @@ const ResponsiveAppBar = ({ signOut, loggedIn }) => {
             <Typography
               variant="h5"
               noWrap
-              component="a"
+              // component="a"
               sx={{
                 mr: 2,
                 display: { xs: 'flex', md: 'none' },
@@ -160,21 +150,7 @@ const ResponsiveAppBar = ({ signOut, loggedIn }) => {
               LOGO
             </Typography>
           </Link>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-{/* 
-
-
-            {pages.map((page) => (
-              <Link to={page.url}>
-                <Button
-                  key={page.url}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
-                >
-                  {page.name}
-                </Button>
-              </Link>
-            ))} */}
+            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               { loggedIn ? 
                 <>
                   <MenuItem onClick={handleCloseNavMenu}>
