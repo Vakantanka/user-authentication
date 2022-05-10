@@ -14,6 +14,7 @@ const apiSignIn = async (credential) => {
     );
     return (response);
   } catch (error) {
+    console.log(error.response)
     if (!error.response) return (error);
     return error.response;
   }

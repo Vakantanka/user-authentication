@@ -91,6 +91,7 @@ export default function SignIn({setStatus, loggedIn, setLoggedIn}) {
           setStatus(response.status);
         }
       } else {
+        console.log(response)
         if (response.status) {
           setStatus(response.status);
         } else {

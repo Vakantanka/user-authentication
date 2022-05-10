@@ -7,7 +7,6 @@ app.use(cors())
 app.use(express.json())
 
 const mongoose = require('mongoose')
-const http = require('axios')
 
 const userRoutes = require('./route/user')
 const contentRoutes = require('./route/content')
