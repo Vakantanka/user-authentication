@@ -55,24 +55,26 @@ const ResponsiveAppBar = ({ signOut, loggedIn }) => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <FilterVintageTwoToneIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Link to="/">
-            <Typography
-              variant="h6"
-              noWrap
-              sx={{
-                mr: 2,
-                display: { xs: 'none', md: 'flex' },
-                fontFamily: 'Roboto',
-                fontWeight: 700,
-                letterSpacing: '.3rem',
-                color: 'inherit',
-                textDecoration: 'none',
-              }}
-            >
-              LOGO
-            </Typography>
+            <FilterVintageTwoToneIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           </Link>
+          <Typography
+            variant="h6"
+            noWrap
+            sx={{
+              mr: 2,
+              display: { xs: 'none', md: 'flex' },
+              fontFamily: 'Roboto',
+              fontWeight: 700,
+              letterSpacing: '.3rem',
+              color: 'inherit',
+              textDecoration: 'none',
+            }}
+          >
+            <Link to="/">
+              LOGO
+            </Link>
+          </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -113,26 +115,27 @@ const ResponsiveAppBar = ({ signOut, loggedIn }) => {
                 : 
                 <div>
                   <MenuItem onClick={handleCloseNavMenu}>
-                    <Link to="signIn">
-                      <Typography textAlign="center">
-                          Sign In
-                      </Typography>
-                    </Link>
+                    <Typography textAlign="center">
+                      <Link to="signIn">
+                        Sign In
+                      </Link>
+                    </Typography>
                   </MenuItem>
                   <MenuItem onClick={handleCloseNavMenu}>
-                    <Link to="signUp">
-                      <Typography textAlign="center">
+                    <Typography textAlign="center">
+                      <Link to="signUp">
                           Sign Up
-                      </Typography>
-                    </Link>
+                      </Link>
+                    </Typography>
                   </MenuItem>
                 </div>
               }
             </Menu>
           </Box>
-          <FilterVintageTwoToneIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Link to="/">
-            <Typography
+            <FilterVintageTwoToneIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          </Link>
+          <Typography
               variant="h5"
               noWrap
               // component="a"
@@ -147,37 +150,37 @@ const ResponsiveAppBar = ({ signOut, loggedIn }) => {
                 textDecoration: 'none',
               }}
             >
-              LOGO
+              <Link to="/">
+                LOGO
+              </Link>
             </Typography>
-          </Link>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               { loggedIn ? 
-                <>
-                  <MenuItem onClick={handleCloseNavMenu}>
+                <div>
+                  <Button onClick={handleCloseNavMenu}>
                     <Typography textAlign="center" onClick={signOut}>
                       Sign Out
                     </Typography>
-                  </MenuItem>
-                </>
+                  </Button>
+                </div>
                 : 
-                <>
-                  <MenuItem onClick={handleCloseNavMenu}>
-                    <Link to="signIn">
-                      <Typography textAlign="center">
-                          Sign In
-                      </Typography>
-                    </Link>
-                  </MenuItem>
-                  <MenuItem onClick={handleCloseNavMenu}>
-                    <Link to="signUp">
-                      <Typography textAlign="center">
-                          Sign Up
-                      </Typography>
-                    </Link>
-                  </MenuItem>
-                </>
+                <div>
+                  <Button onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">
+                      <Link to="signIn">
+                        Sign In
+                      </Link>
+                    </Typography>
+                  </Button>
+                  <Button onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">
+                      <Link to="signUp">
+                        Sign Up
+                      </Link>
+                    </Typography>
+                  </Button>
+                </div>
               }
-
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>

@@ -28,9 +28,7 @@ a img {
   border: none;
 }
 
-button,
-a {
-  cursor: pointer;
+.MuiToolbar-root a, .MuiToolbar-root button {
   color: inherit;
 }
 

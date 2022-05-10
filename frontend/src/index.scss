@@ -30,11 +30,14 @@ a img {
   border: none;
 }
 
-button,
-a {
-  cursor: pointer;
+.MuiToolbar-root a, .MuiToolbar-root button {
   color: inherit;
 }
+// button,
+// a {
+//   cursor: pointer;
+//   color: inherit;
+// }
 
 :root {
   --main-bg-color: hsl(228, 28%, 20%);
