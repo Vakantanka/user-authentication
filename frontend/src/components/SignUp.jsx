@@ -155,13 +155,6 @@ export default function SignUp({setStatus}) {
 
   return (
     <>
-    { signedUp ?
-      <section>
-        <h2>Congratulations!</h2>
-        <p>You have successfully registered the site. Please, verify your email to confirm your registration.</p>
-      </section>
-    :
-    <>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -172,6 +165,13 @@ export default function SignUp({setStatus}) {
             alignItems: 'center',
           }}
         >
+        { signedUp ?
+          <>
+            <h2>Congratulations!</h2>
+            <p>You have successfully registered the site. Please, verify your email to confirm your registration.</p>
+          </>
+        :
+        <>
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
@@ -276,10 +276,10 @@ export default function SignUp({setStatus}) {
               </Grid>
             </Grid>
           </Box>
+         </>
+        }
         </Box>
       </Container>
     </>
-  }
-  </>
 );
 }

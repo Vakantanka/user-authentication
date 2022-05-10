@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { apiConfirm } from '../api/auth.api';
 import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 
 const Confirm = ({ setStatus }) => {
   const [confirmed, setConfirmed] = useState(false);
@@ -21,7 +24,7 @@ const Confirm = ({ setStatus }) => {
         if (response.status === 200) {
           setConfirmed(true);
           setStatus("confirmed");
-          return true;
+          redirect();
         } else {
           setStatus(response.status);
         }
@@ -41,10 +44,22 @@ const Confirm = ({ setStatus }) => {
 
   return (
     <>
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <Box
+        sx={{
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
       <h2>Confirmation</h2>
       { confirmed && 
         <Button variant="outlined" onClick={redirect}>Sign In</Button>
       }
+      </Box>
+    </Container>
     </>
   )
 }
