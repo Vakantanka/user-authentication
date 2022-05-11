@@ -136,4 +136,33 @@ const apiReset = async (elements) => {
   }
 }
 
-module.exports = { apiSignIn, apiSignUp, apiGetContent, apiFindUserByUsername, apiFindUserByEmail, apiConfirm, apiPasswordReset, apiChangePassword, apiReset }
+const apiCallRestrictedFunction = async () => {
+  try {
+    const response = await http.post(myBackEndURL + "/content/callRestrictedFunction",
+    {},
+    {
+      headers: {
+      "x-access-token": localStorage.getItem('token'),
+      },
+    })
+    return (response);
+  } catch (error) {
+    console.log(error);
+    if (!error.response) return (error);
+    return error.response;
+  }
+
+}
+
+module.exports = { 
+  apiSignIn, 
+  apiSignUp, 
+  apiGetContent, 
+  apiFindUserByUsername, 
+  apiFindUserByEmail, 
+  apiConfirm, 
+  apiPasswordReset, 
+  apiChangePassword, 
+  apiReset,
+  apiCallRestrictedFunction
+}

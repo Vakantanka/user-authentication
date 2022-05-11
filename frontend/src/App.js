@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 import Homepage from './components/Homepage';
 import Confirm from './components/Confirm';
 import PasswordResetForm from './components/PasswordResetForm';
 import PasswordChange from './components/PasswordChange';
+import Profile from './components/Profile';
+import Account from './components/Account';
+import Dashboard from './components/Dashboard';
 
 import Message from './components/Message';
 import Typography from '@mui/material/Typography';
@@ -38,8 +41,8 @@ import blueGrey from '@mui/material/colors/blueGrey';
 
 const theme = createTheme({
   palette: {
-    primary: purple,
-    secondary: deepOrange
+    primary: deepPurple,
+    secondary: purple
   },
 });
 
@@ -47,11 +50,14 @@ function App() {
 
   const [loggedIn, setLoggedIn] = useState(false);
   const [status, setStatus] = useState(false);
-  
+
+  let navigate = useNavigate();
+
   const signOut = () => {
     localStorage.removeItem("token");
     setLoggedIn(false);
     setStatus(false);
+    navigate("/");
   }
 
   function Copyright(props) {
@@ -147,6 +153,24 @@ function App() {
           path="confirm"
           element={
             <Confirm setStatus={setStatus} />
+          }
+        />
+        <Route
+          path="profile"
+          element={
+            <Profile setStatus={setStatus} />
+          }
+        />
+        <Route
+          path="account"
+          element={
+            <Account setStatus={setStatus} />
+          }
+        />
+        <Route
+          path="dashboard"
+          element={
+            <Dashboard setStatus={setStatus} />
           }
         />
       </Routes>

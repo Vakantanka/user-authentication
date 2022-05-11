@@ -14,23 +14,6 @@ import MenuItem from '@mui/material/MenuItem';
 import FilterVintageTwoToneIcon from '@mui/icons-material/FilterVintageTwoTone';
 import { Link } from "react-router-dom";
 
-const pages = [
-  {
-    name: 'Sign In',
-    url: 'signIn'
-  },
-  {
-    name: 'Sign Up',
-    url: 'signUp'
-  },
-  {
-    name: 'Sign Out',
-    url: 'signOut'
-  }
-];
-
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-
 const ResponsiveAppBar = ({ signOut, loggedIn }) => {
  
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -205,11 +188,32 @@ const ResponsiveAppBar = ({ signOut, loggedIn }) => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+              <Link to="profile">
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">
+                    Profile
+                  </Typography>
                 </MenuItem>
-              ))}
+              </Link>
+              <Link to="account">              
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">
+                    Account
+                  </Typography>
+                </MenuItem>
+              </Link>
+              <Link to="dashboard">
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">
+                    Dashboard
+                  </Typography>
+                </MenuItem>
+              </Link>
+              <MenuItem onClick={handleCloseUserMenu}>
+                <Typography textAlign="center" onClick={signOut}>
+                  Sign out
+                </Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>

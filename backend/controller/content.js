@@ -17,4 +17,12 @@ const apiGetContent = async (req, res, next) => {
    }
 }
 
-module.exports = { apiGetContent }
+const apiCallRestrictedFunction = async (req, res, next) => {
+   try {
+      res.json({data: "OK"})
+   } catch (error) {
+      res.status(500).json({error: error})
+   }
+}
+
+module.exports = { apiGetContent, apiCallRestrictedFunction }
