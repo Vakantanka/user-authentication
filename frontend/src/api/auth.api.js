@@ -151,7 +151,21 @@ const apiCallRestrictedFunction = async () => {
     if (!error.response) return (error);
     return error.response;
   }
+}
 
+const apiGetProfileData = async () => {
+  try {
+    const response = await http.get(myBackEndURL + '/user/profile',
+    {
+      headers: {
+      "x-access-token": localStorage.getItem('token'),
+      },
+    })
+    return (response);
+  } catch (error) {
+    if (!error.response) return (error);
+    return error.response;
+  }
 }
 
 module.exports = { 
@@ -164,5 +178,6 @@ module.exports = {
   apiPasswordReset, 
   apiChangePassword, 
   apiReset,
-  apiCallRestrictedFunction
+  apiCallRestrictedFunction,
+  apiGetProfileData
 }

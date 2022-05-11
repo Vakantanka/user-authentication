@@ -122,4 +122,22 @@ const  apiReset = async (req, res, next) => {
    }
 }
 
-module.exports = { apiSignIn, apiSignUp, apiFindUserByUsername, apiFindUserByEmail, apiConfirm, apiPasswordReset, apiReset }
+const apiGetProfileData = async (req, res, next) => {
+   try {
+      const profile = await UserService.getProfileData(req.user_id)
+      res.json(profile)
+   } catch (error) {
+      res.status(500).json({error: error})
+   }
+}
+
+module.exports = { 
+   apiSignIn, 
+   apiSignUp, 
+   apiFindUserByUsername, 
+   apiFindUserByEmail, 
+   apiConfirm, 
+   apiPasswordReset, 
+   apiReset,
+   apiGetProfileData
+}

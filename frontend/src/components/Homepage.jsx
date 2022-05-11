@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { apiGetContent } from '../api/auth.api'
+import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 
 const Homepage = ({ loggedIn, setStatus }) => {
@@ -25,15 +26,26 @@ const Homepage = ({ loggedIn, setStatus }) => {
 
   return (
       <Container component="main" maxWidth="xs">
-      { loggedIn ? 
-        <>
-        <h2>Welcome</h2>
-        {/* <button onClick={() => getContent('/private')}>Private content</button> */}
-        </>
-        : 
-        <>
-        </>
-      }
+        <Container component="main" maxWidth="xs">
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+          >
+        { loggedIn ? 
+          <>
+            <h2>Welcome</h2>
+          </>
+          : 
+          <>
+            <h2>You are not logged in.</h2>
+          </>
+        }
+      </Box>
+    </Container>
       {/* <button onClick={() => getContent('/public')}>Public content</button> */}
       { content && 
         <section className="content">

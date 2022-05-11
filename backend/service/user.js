@@ -1,6 +1,7 @@
 const User = require("../model/User");
 const authEntity = require("../model/authEntity");
 const Reset = require("../model/Reset");
+const Profile = require("../model/Profile");
 const nodemailer = require("nodemailer");
 const crypto = require('crypto');
 
@@ -44,6 +45,8 @@ const saveUser = async (userdata) => {
     const newUser = await user.save();  
     const entity = new authEntity({userId: newUser._id, secretKey: crypto.randomBytes(256).toString('hex')});
     const newEntity = await entity.save();
+    const profile = new Profile({userId: newUser._id});
+    const newProfile = await profile.save();
     const mail = {
       from: process.env.MAIL,
       to: newUser.email,
@@ -139,5 +142,38 @@ const getReset = async (code, password) => {
   }
 }
 
+const getProfileData = async (userId) => {
+  try {
+    const profile = await Profile.findOne({userId: userId});
+    const user = await User.findById(userId);
+    const fullProfile = {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      username: user.username,
+      email: user.email,
+      phone: profile.phone || '',
+      address: {
+        street: profile.address.street || '',
+        city: profile.address.city || '',
+        zipcode: profile.address.zipcode || ''
+      },
+      website: profile.website || '',
+      company: profile.company || ''
+    }
+    return fullProfile;
+  } catch (error) {
+    console.log(`Could not fetch entity ${error}`)
+  }
+}
 
-module.exports = { getUserByUserName, getUserByData, saveUser, getUserByCredential, getAuthenticate, getEntity, passwordReset, getReset }
+module.exports = { 
+  getUserByUserName, 
+  getUserByData, 
+  saveUser, 
+  getUserByCredential, 
+  getAuthenticate, 
+  getEntity, 
+  passwordReset, 
+  getReset,
+  getProfileData
+}

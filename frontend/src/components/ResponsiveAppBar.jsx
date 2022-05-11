@@ -166,6 +166,7 @@ const ResponsiveAppBar = ({ signOut, loggedIn }) => {
               }
           </Box>
 
+          { loggedIn && 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -216,6 +217,7 @@ const ResponsiveAppBar = ({ signOut, loggedIn }) => {
               </MenuItem>
             </Menu>
           </Box>
+          }
         </Toolbar>
       </Container>
     </AppBar>
