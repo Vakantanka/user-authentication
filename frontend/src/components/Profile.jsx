@@ -25,6 +25,8 @@ const Profile = ({setStatus}) => {
   const [street, setStreet] = useState("");
   const [city, setCity] = useState("");
   const [zipcode, setZipcode] = useState("");
+  const [website, setWebsite] = useState("");
+  const [company, setCompany] = useState("");
 
   const [errors, setErrors] = useState({
     firstName: '',
@@ -34,13 +36,17 @@ const Profile = ({setStatus}) => {
     phone: '',
     street: '',
     city: '',
-    zipcode: ''
+    zipcode: '',
+    website: '',
+    company: ''
   });
 
   const handleChange = async (event) => {
     const {name, value} = event.target;
     const regexEmail = /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,15}$/;
     const regexUsername = /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/;
+    const regexPhone = /(\+\d{1,3}\s?)?((\(\d{3}\)\s?)|(\d{3})(\s|-?))(\d{3}(\s|-?))(\d{4})(\s?(([E|e]xt[:|.|]?)|x|X)(\s?\d+))?/g;
+    const regexURL = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/;
 
     let updatedErrors = errors
 
@@ -82,6 +88,30 @@ const Profile = ({setStatus}) => {
         }
         setEmail(value);
         break;
+      case 'phone': 
+        if (!regexPhone.test(value)) {
+          updatedErrors.phone = 'Use numbers only!';
+        } else {
+          updatedErrors.phone = '';
+        }
+        setPhone(value);
+        break;
+      case 'street':
+        break;
+      case 'city':
+        break;
+      case 'zipcode':
+        break;
+      case 'website': 
+        if (!regexURL.test(value)) {
+          updatedErrors.website = 'Invalid URL!';
+        } else {
+          updatedErrors.website = '';
+        }
+        setWebsite(value);
+        break;
+      case 'company':
+          break;
       default:
         break;
     }
@@ -102,7 +132,12 @@ const Profile = ({setStatus}) => {
       lastName: data.get('lastName'),
       username: data.get('username'),
       email: data.get('email'),
-      password: data.get('password')
+      phone: data.get('phone'),
+      street: data.get('street'),
+      city: data.get('city'),
+      zipcode: data.get('zipcode'),
+      website: data.get('website'),
+      company: data.get('company')
     }
     try {
       const response = await apiUpdateProfile(elements);
@@ -143,6 +178,8 @@ const Profile = ({setStatus}) => {
             setStreet(response.data.address.street);
             setCity(response.data.address.city);
             setZipcode(response.data.address.zipcode);
+            setWebsite(response.data.website);
+            setCompany(response.data.company);
             return true;
           } else {
             setStatus(response.status);
@@ -233,14 +270,78 @@ const Profile = ({setStatus}) => {
                   autoComplete="email"
                 />
               </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  value={phone} onChange={handleChange} 
+                  required
+                  fullWidth
+                  id="phone"
+                  label="Phone"
+                  name="phone"
+                  autoComplete="phone"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  value={street} onChange={handleChange} 
+                  required
+                  fullWidth
+                  id="street"
+                  label="Street"
+                  name="street"
+                  autoComplete="street"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  value={city} onChange={handleChange} 
+                  required
+                  fullWidth
+                  id="city"
+                  label="City"
+                  name="city"
+                  autoComplete="city"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  value={zipcode} onChange={handleChange} 
+                  required
+                  fullWidth
+                  id="zipcode"
+                  label="ZIP code"
+                  name="zipcode"
+                  autoComplete="zipcode"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  value={website} onChange={handleChange} 
+                  required
+                  fullWidth
+                  id="website"
+                  label="Web site"
+                  name="website"
+                  autoComplete="website"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  value={company} onChange={handleChange} 
+                  required
+                  fullWidth
+                  id="company"
+                  label="Company"
+                  name="company"
+                  autoComplete="company"
+                />
+              </Grid>
             </Grid>
 
             <div className="errorMessage">
               {errors.firstName && <span>{errors.firstName}</span>}
               {errors.username && <span>{errors.username}</span>}
               {errors.email && <span>{errors.email}</span>}
-              {errors.password && <span>{errors.password}</span>}
-              {errors.confirmPassword && <span>{errors.confirmPassword}</span>}
             </div>
 
             <Button
