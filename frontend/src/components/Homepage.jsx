@@ -26,7 +26,6 @@ const Homepage = ({ loggedIn, setStatus }) => {
 
   return (
       <Container component="main" maxWidth="xs">
-        <Container component="main" maxWidth="xs">
         <Box
           sx={{
             marginTop: 8,
@@ -45,7 +44,6 @@ const Homepage = ({ loggedIn, setStatus }) => {
           </>
         }
       </Box>
-    </Container>
       {/* <button onClick={() => getContent('/public')}>Public content</button> */}
       { content && 
         <section className="content">

@@ -79,10 +79,12 @@ function App() {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          // minHeight: '100vh',
-          width: '100vw',
-          position: 'absolute',
-          bottom: '0'
+          minHeight: '100vh',
+          width: '100%',
+          position: 'relative',
+          bottom: '0',
+          margin: '0 auto',
+          zIndex: '-1'
         }}
       >
         <CssBaseline />
@@ -107,6 +109,7 @@ function App() {
   }
 
   return (
+    <>
     <ThemeProvider theme={theme}>
       <ResponsiveAppBar signOut={signOut} loggedIn={loggedIn} />
       { status && <Message status={status} setStatus={setStatus} /> }
@@ -176,6 +179,7 @@ function App() {
       </Routes>
       <StickyFooter />
     </ThemeProvider>
+    </>
   );
 }
 
