@@ -10,5 +10,8 @@ router.post("/confirm", UserCtrl.apiConfirm);
 router.post("/passwordReset", UserCtrl.apiPasswordReset);
 router.post("/reset", UserCtrl.apiReset);
 router.get("/profile", [authJwt.verifyToken], UserCtrl.apiGetProfileData);
+router.post("/findAnotherUserByUsername", [authJwt.verifyToken], UserCtrl.apiFindAnotherUserByUsername);
+router.post("/findAnotherUserByEmail", [authJwt.verifyToken], UserCtrl.apiFindAnotherUserByEmail);
+router.post("/updateAccount", [authJwt.verifyToken], UserCtrl.apiUpdateAccount);
 
 module.exports = router

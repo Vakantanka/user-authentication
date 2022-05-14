@@ -162,10 +162,19 @@ const getProfileData = async (userId) => {
       website: profile.website || '',
       company: profile.company || ''
     }
-    console.log(user);
+    // console.log(user);
     return fullProfile;
   } catch (error) {
     console.log(`Could not fetch entity ${error}`)
+  }
+}
+
+const updateUser = async (id, userdata) => {
+  try {
+    const user = await User.findByIdAndUpdate(id,userdata);
+    return user;
+  } catch (error) {
+    console.log(`Could not save user ${error}`)
   }
 }
 
@@ -178,5 +187,6 @@ module.exports = {
   getEntity, 
   passwordReset, 
   getReset,
-  getProfileData
+  getProfileData,
+  updateUser
 }

@@ -13,10 +13,17 @@ import AddressForm from '../components/AddressForm';
 import PersonalForm from '../components/PersonalForm';
 import PasswordForm from '../components/PasswordForm';
 
-import { apiUpdateProfile, apiFindUserByEmail, apiFindUserByUsername, apiGetProfileData } from '../api/auth.api';
+import { 
+  apiUpdateProfile, 
+  apiFindAnotherUserByEmail, 
+  apiFindAnotherUserByUsername, 
+  apiGetProfileData,
+  apiUpdateAccount
+} from '../api/auth.api';
 
 export default function Checkout({setStatus}) {
   const [activeStep, setActiveStep] = React.useState(0);
+  
   const [sendStatus, setSendStatus] = useState(false);
   const [updated, setUpdated] = useState(false);
 
@@ -71,7 +78,7 @@ export default function Checkout({setStatus}) {
         if (!regexUsername.test(value)) {
           updatedErrors.username = 'The username must be 8-20 aplhanumeric characters!';
         } else {
-          let answer = await apiFindUserByUsername(name,value)
+          let answer = await apiFindAnotherUserByUsername(name,value)
           if ( answer === 204 ) {
             updatedErrors.username = 'Reserved username.'
           } else {
@@ -84,7 +91,7 @@ export default function Checkout({setStatus}) {
         if (!regexEmail.test(value)) {
           updatedErrors.email = 'Wrong e-mail address!'
         } else {
-          let answer = await apiFindUserByEmail(name,value)
+          let answer = await apiFindAnotherUserByEmail(name,value)
           if ( answer === 204 ) {
             updatedErrors.email = 'Reserved email address.'
           } else {
@@ -129,6 +136,35 @@ export default function Checkout({setStatus}) {
     })
   };
 
+  const updateAccount = async (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const elements = {
+      firstName: data.get('firstName'),
+      lastName: data.get('lastName'),
+      username: data.get('username'),
+      email: data.get('email'),
+    }
+    try {
+      const response = await apiUpdateAccount(elements);
+      if (response.data) {
+        if (response.status === 200) {
+          setStatus(response.status)
+        } else {
+          setStatus(response.status);
+        }
+      } else {
+        if (response.status) {
+          setStatus(response.status);
+        } else {
+          setStatus("networkError");
+        }
+      }
+    } catch(error) {
+      setStatus(909);
+    }
+  }
+
   const steps = ['Account', 'Address', 'Personal', 'Password'];
 
   function getStepContent(step) {
@@ -140,6 +176,7 @@ export default function Checkout({setStatus}) {
           email={email}
           username={username}
           handleChange={handleChange}
+          update={updateAccount}
         />;
       case 1:
         return <AddressForm 
@@ -179,7 +216,6 @@ export default function Checkout({setStatus}) {
       try {
         const response = await apiGetProfileData();
         if (response.data) {
-          console.log(response.data);
           if (response.status === 200) {
             setStatus(false);
             setFirstName(response.data.firstName);
@@ -245,14 +281,28 @@ export default function Checkout({setStatus}) {
                   </Button>
                 )}
 
-                <Button
+                {/* <Button
                   variant="contained"
                   onClick={handleNext}
                   sx={{ mt: 3, ml: 1 }}
-                >
-                  {activeStep === steps.length - 1 ? 'Update profile' : 'Next'}
-                </Button>
+                > */}
+                  {/* {activeStep === steps.length - 1 ? 'Update profile' : 'Next'} */}
+                  {activeStep !== steps.length - 1 && 
+                    <Button
+                    variant="contained"
+                    onClick={handleNext}
+                    sx={{ mt: 3, ml: 1 }}
+                  >Next
+                  </Button>
+                }
               </Box>
+              <div className="errorMessage">
+                {errors.firstName && <span>{errors.firstName}</span>}
+                {errors.username && <span>{errors.username}</span>}
+                {errors.email && <span>{errors.email}</span>}
+                {errors.password && <span>{errors.password}</span>}
+                {errors.confirmPassword && <span>{errors.confirmPassword}</span>}
+              </div>
             </React.Fragment>
           )}
         </React.Fragment>

@@ -61,9 +61,9 @@ const apiFindUserByUsername = async (req, res, next) => {
       let option = { username: username };
       const user = await UserService.getUserByCredential(option);
       if (user.length > 0) {
-         res.sendStatus(204);
+         res.sendStatus(204)
       } else {
-         res.sendStatus(200);
+         res.sendStatus(200)
       }
    } catch (error) {
       res.status(500).json({error: error})
@@ -76,9 +76,41 @@ const apiFindUserByEmail = async (req, res, next) => {
       let option = { email: email };
       const user = await UserService.getUserByCredential(option);
       if (user.length > 0) {
-         res.sendStatus(204);
+         res.sendStatus(204)
       } else {
-         res.sendStatus(200);
+         res.sendStatus(200)
+      }
+   } catch (error) {
+      res.status(500).json({error: error})
+   }
+}
+
+const apiFindAnotherUserByUsername = async (req, res, next) => {
+   try {
+      let username = req.body.username || {};
+      let option = { username: username };
+      const user = await UserService.getUserByCredential(option);
+      if (user.length > 0) {
+         if (req.user_id === user[0]._id.toString()) return res.sendStatus(200)
+         res.sendStatus(204)
+      } else {
+         res.sendStatus(200)
+      }
+   } catch (error) {
+      res.status(500).json({error: error})
+   }
+}
+
+const apiFindAnotherUserByEmail = async (req, res, next) => {
+   try {
+      let email = req.body.email || {};
+      let option = { email: email };
+      const user = await UserService.getUserByCredential(option);
+      if (user.length > 0) {
+         if (req.user_id === user[0]._id.toString()) return res.sendStatus(200)
+         res.sendStatus(204)
+      } else {
+         res.sendStatus(200)
       }
    } catch (error) {
       res.status(500).json({error: error})
@@ -131,6 +163,30 @@ const apiGetProfileData = async (req, res, next) => {
    }
 }
 
+const apiUpdateAccount = async (req, res, next) => {
+   console.log(req.body);
+   if (!req.body.firstName || !req.body.lastName || !req.body.username || !req.body.email) return res.sendStatus(401);
+
+   const regexEmail = /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,15}$/;
+   const regexUsername = /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/;
+   if (req.body.firstName.length < 5) return res.sendStatus(403);
+   if (!regexUsername.test(req.body.username)) return res.sendStatus(403);
+   if (!regexEmail.test(req.body.email)) return res.sendStatus(403);
+
+   // let option = { $or: [{email: req.body.email}, {username: req.body.username}] };
+   // const existingUser = await UserService.getUserByData(option);
+   // console.log(existingUser);
+   // if (existingUser.length === 1) return res.sendStatus(409);
+
+   const user = await UserService.updateUser(req.user_id,req.body);
+   if (user) {
+      res.sendStatus(200);
+   } else {
+      res.sendStatus(400);
+   }
+}
+
+
 module.exports = { 
    apiSignIn, 
    apiSignUp, 
@@ -139,5 +195,8 @@ module.exports = {
    apiConfirm, 
    apiPasswordReset, 
    apiReset,
-   apiGetProfileData
+   apiGetProfileData,
+   apiFindAnotherUserByEmail,
+   apiFindAnotherUserByUsername,
+   apiUpdateAccount
 }

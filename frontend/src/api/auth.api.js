@@ -127,8 +127,8 @@ const apiReset = async (elements) => {
         password: password
       }
       );
-    console.log("response");
-    return (response);
+      console.log("response");
+      return (response);
   } catch (error) {
     console.log("error");
     if (!error.response) return (error);
@@ -168,7 +168,63 @@ const apiGetProfileData = async () => {
   }
 }
 
+const apiFindAnotherUserByUsername = async (name,value) => {
+  try {
+    const object = { username: value }
+    const response = await http.post(
+      myBackEndURL + "/user/findAnotherUserByUsername",
+      object,
+      {
+        headers: {
+        "x-access-token": localStorage.getItem('token'),
+        },
+      })
+    return response.status;
+  } catch (error) {
+    if (!error.response) return (error);
+    return error.response;
+  }
+}
+
+const apiFindAnotherUserByEmail = async (name,value) => {
+  try {
+    const object = { email: value }
+    const response = await http.post(
+      myBackEndURL + "/user/findAnotherUserByEmail",
+      object,
+      {
+        headers: {
+        "x-access-token": localStorage.getItem('token'),
+        },
+      })
+    return response.status;
+  } catch (error) {
+    if (!error.response) return (error);
+    return error.response;
+  }
+}
+
+const apiUpdateAccount = async (elements) => {
+  try {
+    const response = await http.post(
+      myBackEndURL + "/user/updateAccount",
+      elements,
+      {
+        headers: {
+        "x-access-token": localStorage.getItem('token'),
+        }
+      }
+    );
+    return (response);
+  } catch (error) {
+    if (!error.response) return (error);
+    return error.response;
+  }
+}
+
+
 module.exports = { 
+
   apiSignIn, 
   apiSignUp, 
   apiGetContent, 
@@ -179,5 +235,9 @@ module.exports = {
   apiChangePassword, 
   apiReset,
   apiCallRestrictedFunction,
-  apiGetProfileData
+  apiGetProfileData,
+  apiFindAnotherUserByUsername,
+  apiFindAnotherUserByEmail,
+  apiUpdateAccount,
+
 }
