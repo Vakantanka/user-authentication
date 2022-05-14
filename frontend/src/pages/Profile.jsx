@@ -25,7 +25,12 @@ export default function Checkout({setStatus}) {
   const [activeStep, setActiveStep] = React.useState(0);
   
   const [sendStatus, setSendStatus] = useState(false);
-  const [updated, setUpdated] = useState(false);
+
+  const [updatedAccount, setUpdatedAccount] = useState(false);
+  
+  const [updatedAddress, setUpdatedAddress] = useState(false);
+  const [updatedPersonal, setUpdatedPersonal] = useState(false);
+  const [updatedPassword, setUpdatedPassword] = useState(false);
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -149,7 +154,8 @@ export default function Checkout({setStatus}) {
       const response = await apiUpdateAccount(elements);
       if (response.data) {
         if (response.status === 200) {
-          setStatus(response.status)
+          // setStatus(response.status)
+          setUpdatedAccount(true)
         } else {
           setStatus(response.status);
         }
@@ -177,6 +183,8 @@ export default function Checkout({setStatus}) {
           username={username}
           handleChange={handleChange}
           update={updateAccount}
+          sendStatus={sendStatus}
+          updated={updatedAccount}
         />;
       case 1:
         return <AddressForm 
@@ -187,12 +195,18 @@ export default function Checkout({setStatus}) {
           country={country}
           phone={phone}
           handleChange={handleChange}
+          // update={updateAddress}
+          // updated={updatedAddress}
+          // setUpdated={setUpdatedAddress}
         />;
       case 2:
         return <PersonalForm 
           company={company}
           website={website}
           handleChange={handleChange}
+          // update={updatePersonal}
+          // updated={updatedPersonal}
+          // setUpdated={setUpdatedPersonal}
         />;
       case 3:
         return <PasswordForm 

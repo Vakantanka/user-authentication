@@ -14,16 +14,10 @@ export default function AccountForm({
   email,
   username,
   handleChange,
-  update
+  update,
+  sendStatus,
+  updated
 }) {
-
-  const [errors, setErrors] = useState({
-    firstName: '',
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-  });
 
   return (
     <React.Fragment>
@@ -42,6 +36,7 @@ export default function AccountForm({
               fullWidth
               autoComplete="firstName"
               variant="standard"
+              disabled={updated}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -54,6 +49,7 @@ export default function AccountForm({
               fullWidth
               autoComplete="lastName"
               variant="standard"
+              disabled={updated}
             />
           </Grid>
           <Grid item xs={12}>
@@ -66,6 +62,7 @@ export default function AccountForm({
               fullWidth
               autoComplete="email"
               variant="standard"
+              disabled={updated}
             />
           </Grid>
           <Grid item xs={6}>
@@ -78,17 +75,30 @@ export default function AccountForm({
               fullWidth
               autoComplete="username"
               variant="standard"
+              disabled={updated}
             />
           </Grid>
           <Grid item xs={6}>
           </Grid>
           <Grid item xs={6}>
-            <Button 
-              type="submit"
-              variant="outlined"
-            >
-              Update
-            </Button>
+            { updated ? 
+              <>
+              <Button 
+                variant="outlined"
+                disabled="true"
+              >
+                Updated
+              </Button>
+              </>
+              :
+              <Button 
+                type="submit"
+                variant="outlined"
+                disabled={!sendStatus}
+              >
+                Update
+              </Button>
+            }
           </Grid>
         </Grid>
       </Box>
