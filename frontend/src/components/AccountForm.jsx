@@ -5,58 +5,65 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
-export default function PaymentForm() {
+export default function AccountForm({
+  firstName, 
+  lastName,
+  email,
+  username,
+  handleChange
+}) {
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
-        Payment method
+        Account data
       </Typography>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} sm={6}>
           <TextField
+            value={firstName} onChange={handleChange}
             required
-            id="cardName"
-            label="Name on card"
+            id="firstName"
+            name="firstName"
+            label="First name"
             fullWidth
-            autoComplete="cc-name"
+            autoComplete="firstName"
             variant="standard"
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} sm={6}>
           <TextField
+            value={lastName} onChange={handleChange}
             required
-            id="cardNumber"
-            label="Card number"
+            id="lastName"
+            name="lastName"
+            label="Last name"
             fullWidth
-            autoComplete="cc-number"
-            variant="standard"
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <TextField
-            required
-            id="expDate"
-            label="Expiry date"
-            fullWidth
-            autoComplete="cc-exp"
-            variant="standard"
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <TextField
-            required
-            id="cvv"
-            label="CVV"
-            helperText="Last three digits on signature strip"
-            fullWidth
-            autoComplete="cc-csc"
+            autoComplete="lastName"
             variant="standard"
           />
         </Grid>
         <Grid item xs={12}>
-          <FormControlLabel
-            control={<Checkbox color="secondary" name="saveCard" value="yes" />}
-            label="Remember credit card details for next time"
+          <TextField
+            value={email} onChange={handleChange}
+            required
+            id="email"
+            name="email"
+            label="Email"
+            fullWidth
+            autoComplete="email"
+            variant="standard"
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            value={username} onChange={handleChange}
+            required
+            id="username"
+            name="username"
+            label="Username"
+            fullWidth
+            autoComplete="username"
+            variant="standard"
           />
         </Grid>
       </Grid>

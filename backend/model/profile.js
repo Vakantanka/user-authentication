@@ -10,13 +10,19 @@ const profileSchema = Schema({
     type: String
   },
   address: {
-    street: {
+    address: {
       type: String
     },
     city: {
       type: String
     },
+    state: {
+      type: String
+    },
     zipcode: {
+      type: String
+    },
+    country: {
       type: String
     }
   },

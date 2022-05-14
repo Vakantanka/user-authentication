@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
 import { Routes, Route, useNavigate } from "react-router-dom";
-import SignIn from './components/SignIn';
-import SignUp from './components/SignUp';
-import Homepage from './components/Homepage';
-import Confirm from './components/Confirm';
-import PasswordResetForm from './components/PasswordResetForm';
-import PasswordChange from './components/PasswordChange';
-import Profile from './components/Profile';
-import Account from './components/Account';
-import Dashboard from './components/Dashboard';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
+import Homepage from './pages/Homepage';
+import Confirm from './pages/Confirm';
+import PasswordResetForm from './pages/PasswordResetForm';
+import PasswordChange from './pages/PasswordChange';
+import Profile from './pages/Profile';
+import Dashboard from './pages/Dashboard';
 
 import Message from './components/Message';
 import Typography from '@mui/material/Typography';
@@ -41,8 +40,8 @@ import blueGrey from '@mui/material/colors/blueGrey';
 
 const theme = createTheme({
   palette: {
-    primary: deepPurple,
-    secondary: purple
+    primary: teal,
+    secondary: orange
   },
 });
 
@@ -81,7 +80,7 @@ function App() {
           flexDirection: 'column',
           minHeight: '100vh',
           width: '100%',
-          position: 'relative',
+          position: 'sticky',
           bottom: '0',
           margin: '0 auto',
           zIndex: '-1'
@@ -162,12 +161,6 @@ function App() {
           path="profile"
           element={
             <Profile setStatus={setStatus} />
-          }
-        />
-        <Route
-          path="account"
-          element={
-            <Account setStatus={setStatus} />
           }
         />
         <Route

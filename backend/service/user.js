@@ -149,17 +149,20 @@ const getProfileData = async (userId) => {
     const fullProfile = {
       firstName: user.firstName,
       lastName: user.lastName,
-      username: user.username,
       email: user.email,
-      phone: profile.phone || '',
+      username: user.username,
       address: {
-        street: profile.address.street || '',
+        address: profile.address.address || '',
         city: profile.address.city || '',
-        zipcode: profile.address.zipcode || ''
+        state: profile.address.state || '',
+        zipcode: profile.address.zipcode || '',
+        country: profile.address.country || ''
       },
+      phone: profile.phone || '',
       website: profile.website || '',
       company: profile.company || ''
     }
+    console.log(user);
     return fullProfile;
   } catch (error) {
     console.log(`Could not fetch entity ${error}`)

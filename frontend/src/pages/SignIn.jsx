@@ -10,6 +10,7 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
 import { useNavigate } from 'react-router-dom';
 import { apiSignIn } from '../api/auth.api';
 
@@ -101,16 +102,16 @@ export default function SignIn({setStatus, loggedIn, setLoggedIn}) {
   }
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <Box
-        sx={{
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
+    <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
+      {/* <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}> */}
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
           <LockOutlinedIcon />
         </Avatar>
@@ -128,6 +129,7 @@ export default function SignIn({setStatus, loggedIn, setLoggedIn}) {
             name="credential"
             autoComplete="credential"
             autoFocus
+            variant="standard"
           />
           <TextField
             value={password} onChange={handleChange}  
@@ -139,6 +141,7 @@ export default function SignIn({setStatus, loggedIn, setLoggedIn}) {
             type="password"
             id="password"
             autoComplete="current-password"
+            variant="standard"
           />
           <div className="errorMessage">
             {errors.credential && <span>{errors.credential}</span>}
@@ -168,6 +171,7 @@ export default function SignIn({setStatus, loggedIn, setLoggedIn}) {
           </Grid>
         </Box>
       </Box>
+      {/* </Paper> */}
     </Container>
   );
 }

@@ -10,6 +10,7 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
 
 import { apiSignUp, apiFindUserByEmail, apiFindUserByUsername } from '../api/auth.api';
 
@@ -155,8 +156,8 @@ export default function SignUp({setStatus}) {
 
   return (
     <>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
+    <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
+      {/* <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}> */}
         <Box
           sx={{
             marginTop: 8,
@@ -178,7 +179,7 @@ export default function SignUp({setStatus}) {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box component="form" noValidate onSubmit={signUp} sx={{ mt: 3 }}>
+          <Box component="form" noValidate onSubmit={signUp} sx={{ mt: 1 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -190,7 +191,8 @@ export default function SignUp({setStatus}) {
                   id="firstName"
                   label="First Name"
                   autoFocus
-                />
+                  variant="standard"
+                  />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -201,7 +203,8 @@ export default function SignUp({setStatus}) {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
-                />
+                  variant="standard"
+                  />
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -212,7 +215,8 @@ export default function SignUp({setStatus}) {
                   label="Username"
                   name="username"
                   autoComplete="username"
-                />
+                  variant="standard"
+                  />
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -223,7 +227,8 @@ export default function SignUp({setStatus}) {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
-                />
+                  variant="standard"
+                  />
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -235,7 +240,8 @@ export default function SignUp({setStatus}) {
                   type="password"
                   id="password"
                   autoComplete="new-password"
-                />
+                  variant="standard"
+                  />
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -247,7 +253,8 @@ export default function SignUp({setStatus}) {
                   type="password"
                   id="confirmPassword"
                   autoComplete="new-password"
-                />
+                  variant="standard"
+                  />
               </Grid>
             </Grid>
 
@@ -279,7 +286,8 @@ export default function SignUp({setStatus}) {
          </>
         }
         </Box>
-      </Container>
+      {/* </Paper> */}
+    </Container>
     </>
 );
 }
