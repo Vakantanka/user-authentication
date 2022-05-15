@@ -14,5 +14,6 @@ router.post("/findAnotherUserByUsername", [authJwt.verifyToken], UserCtrl.apiFin
 router.post("/findAnotherUserByEmail", [authJwt.verifyToken], UserCtrl.apiFindAnotherUserByEmail);
 router.post("/updateAccount", [authJwt.verifyToken], UserCtrl.apiUpdateAccount);
 router.post("/updateAddress", [authJwt.verifyToken], UserCtrl.apiUpdateAddress);
+router.post("/updatePassword", [authJwt.verifyToken], UserCtrl.apiUpdatePassword);
 
 module.exports = router

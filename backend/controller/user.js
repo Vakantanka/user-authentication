@@ -199,6 +199,14 @@ const apiUpdateAddress = async (req, res, next) => {
    }
 }
 
+const apiUpdatePassword = async (req, res, next) => {
+   const user = await UserService.updatePassword(req.user_id,req.body);
+   if (user) {
+      res.sendStatus(200);
+   } else {
+      res.sendStatus(403);
+   }
+}
 
 module.exports = { 
    apiSignIn, 
@@ -212,5 +220,6 @@ module.exports = {
    apiFindAnotherUserByEmail,
    apiFindAnotherUserByUsername,
    apiUpdateAccount,
-   apiUpdateAddress
+   apiUpdateAddress,
+   apiUpdatePassword
 }

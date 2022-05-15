@@ -14,7 +14,6 @@ const apiSignIn = async (credential) => {
     );
     return (response);
   } catch (error) {
-    console.log(error.response)
     if (!error.response) return (error);
     return error.response;
   }
@@ -127,10 +126,8 @@ const apiReset = async (elements) => {
         password: password
       }
       );
-      console.log("response");
       return (response);
   } catch (error) {
-    console.log("error");
     if (!error.response) return (error);
     return error.response;
   }
@@ -147,7 +144,6 @@ const apiCallRestrictedFunction = async () => {
     })
     return (response);
   } catch (error) {
-    console.log(error);
     if (!error.response) return (error);
     return error.response;
   }
@@ -240,6 +236,24 @@ const apiUpdateProfile = async (elements) => {
   }
 }
 
+const apiUpdatePassword = async (elements) => {
+  try {
+    const response = await http.post(
+      myBackEndURL + "/user/updatePassword",
+      elements,
+      {
+        headers: {
+          "x-access-token": localStorage.getItem('token'),
+          }
+        }
+      );
+      return (response);
+  } catch (error) {
+    if (!error.response) return (error);
+    return error.response;
+  }
+}
+
 module.exports = { 
 
   apiSignIn, 
@@ -257,5 +271,6 @@ module.exports = {
   apiFindAnotherUserByEmail,
   apiUpdateAccount,
   apiUpdateProfile,
+  apiUpdatePassword
 
 }

@@ -8,6 +8,7 @@ import PasswordResetForm from './pages/PasswordResetForm';
 import CreateNewPassword from './pages/CreateNewPassword';
 import Profile from './pages/Profile';
 import Account from './pages/Account';
+import Password from './pages/Password';
 import Dashboard from './pages/Dashboard';
 
 import Message from './components/Message';
@@ -168,6 +169,12 @@ function App() {
           path="account"
           element={
             <Account setStatus={setStatus} />
+          }
+        />
+        <Route
+          path="password"
+          element={
+            <Password setStatus={setStatus} />
           }
         />
         <Route

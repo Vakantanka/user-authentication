@@ -201,7 +201,6 @@ const updateUser = async (id, userdata) => {
 }
 
 const updateProfile = async (id, profileData) => {
-  console.log(profileData);
   try {
     const profile = await Profile.findOneAndUpdate({userId: id}, profileData);
     return profile;
@@ -210,6 +209,22 @@ const updateProfile = async (id, profileData) => {
   }
 }
 
+const updatePassword = async (id, password) => {
+  console.log(password);
+  try {
+    // const user = await User.findByIdAndUpdate(id, password);
+    // return user;
+    const user = await User.findById(id);
+    const match = await user.comparePassword(password.oldPassword);
+    if (match) {
+      user.password = password.newPassword;
+      await user.save();
+      return user;
+    }
+  } catch (error) {
+    console.log(`Could not save profile ${error}`)
+  }
+}
 
 module.exports = { 
   getUserByUserName, 
@@ -222,5 +237,6 @@ module.exports = {
   getReset,
   getProfileData,
   updateUser,
-  updateProfile
+  updateProfile,
+  updatePassword
 }

@@ -203,6 +203,13 @@ const ResponsiveAppBar = ({ signOut, loggedIn }) => {
                   </Typography>
                 </MenuItem>
               </Link>
+              <Link to="password">
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">
+                    Password
+                  </Typography>
+                </MenuItem>
+              </Link>
               <Link to="dashboard">
                 <MenuItem onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">
