@@ -10,7 +10,7 @@ const profileSchema = Schema({
     type: String
   },
   address: {
-    address: {
+    street: {
       type: String
     },
     city: {

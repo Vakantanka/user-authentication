@@ -164,7 +164,6 @@ const apiGetProfileData = async (req, res, next) => {
 }
 
 const apiUpdateAccount = async (req, res, next) => {
-   console.log(req.body);
    if (!req.body.firstName || !req.body.lastName || !req.body.username || !req.body.email) return res.sendStatus(401);
 
    const regexEmail = /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,15}$/;
@@ -173,13 +172,27 @@ const apiUpdateAccount = async (req, res, next) => {
    if (!regexUsername.test(req.body.username)) return res.sendStatus(403);
    if (!regexEmail.test(req.body.email)) return res.sendStatus(403);
 
-   // let option = { $or: [{email: req.body.email}, {username: req.body.username}] };
-   // const existingUser = await UserService.getUserByData(option);
-   // console.log(existingUser);
-   // if (existingUser.length === 1) return res.sendStatus(409);
+   let option = { $or: [{email: req.body.email}, {username: req.body.username}] };
+   const existingUser = await UserService.getUserByData(option);
+
+   if (existingUser.length > 1) {
+      return res.sendStatus(409);
+   }
+   if (existingUser.length === 1 && existingUser[0]._id.toString() !== req.user_id) {
+      return res.sendStatus(409);
+   }
 
    const user = await UserService.updateUser(req.user_id,req.body);
    if (user) {
+      res.sendStatus(200);
+   } else {
+      res.sendStatus(400);
+   }
+}
+
+const apiUpdateAddress = async (req, res, next) => {
+   const profile = await UserService.updateProfile(req.user_id,req.body);
+   if (profile) {
       res.sendStatus(200);
    } else {
       res.sendStatus(400);
@@ -198,5 +211,6 @@ module.exports = {
    apiGetProfileData,
    apiFindAnotherUserByEmail,
    apiFindAnotherUserByUsername,
-   apiUpdateAccount
+   apiUpdateAccount,
+   apiUpdateAddress
 }

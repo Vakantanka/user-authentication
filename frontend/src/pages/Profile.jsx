@@ -14,11 +14,11 @@ import PersonalForm from '../components/PersonalForm';
 import PasswordForm from '../components/PasswordForm';
 
 import { 
-  apiUpdateProfile, 
   apiFindAnotherUserByEmail, 
   apiFindAnotherUserByUsername, 
   apiGetProfileData,
-  apiUpdateAccount
+  apiUpdateAccount,
+  apiUpdateProfile, 
 } from '../api/auth.api';
 
 export default function Checkout({setStatus}) {
@@ -27,7 +27,6 @@ export default function Checkout({setStatus}) {
   const [sendStatus, setSendStatus] = useState(false);
 
   const [updatedAccount, setUpdatedAccount] = useState(false);
-  
   const [updatedAddress, setUpdatedAddress] = useState(false);
   const [updatedPersonal, setUpdatedPersonal] = useState(false);
   const [updatedPassword, setUpdatedPassword] = useState(false);
@@ -36,7 +35,7 @@ export default function Checkout({setStatus}) {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
-  const [address, setAddress] = useState("");
+  const [street, setStreet] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [zipcode, setZipcode] = useState("");
@@ -45,15 +44,19 @@ export default function Checkout({setStatus}) {
   const [website, setWebsite] = useState("");
   const [company, setCompany] = useState("");
 
+  const [initialData, setInitialData] = useState(false)
+
   const [errors, setErrors] = useState({
     firstName: '',
     lastName: '',
     username: '',
     email: '',
-    phone: '',
     street: '',
     city: '',
+    state: '',
     zipcode: '',
+    country: '',
+    phone: '',
     website: '',
     company: ''
   });
@@ -105,6 +108,21 @@ export default function Checkout({setStatus}) {
         }
         setEmail(value);
         break;
+      case 'street':
+        setStreet(value);
+        break;
+      case 'city':
+        setCity(value);
+        break;
+      case 'state':
+        setState(value);
+        break;
+      case 'zipcode':
+        setZipcode(value);
+        break;
+      case 'country':
+        setCountry(value);
+        break;
       case 'phone': 
         if (!regexPhone.test(value)) {
           updatedErrors.phone = 'Use numbers only!';
@@ -112,12 +130,6 @@ export default function Checkout({setStatus}) {
           updatedErrors.phone = '';
         }
         setPhone(value);
-        break;
-      case 'street':
-        break;
-      case 'city':
-        break;
-      case 'zipcode':
         break;
       case 'website': 
         if (!regexURL.test(value)) {
@@ -128,6 +140,7 @@ export default function Checkout({setStatus}) {
         setWebsite(value);
         break;
       case 'company':
+          setCompany(value);
           break;
       default:
         break;
@@ -171,6 +184,66 @@ export default function Checkout({setStatus}) {
     }
   }
 
+  const updateAddress = async (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const elements = {
+      address: {
+        street: data.get('street'),
+        city: data.get('city'),
+        state: data.get('state'),
+        zipcode: data.get('zipcode'),
+        country: data.get('country')
+      },
+      phone: data.get('phone'),
+    }
+    try {
+      const response = await apiUpdateProfile(elements);
+      if (response.data) {
+        if (response.status === 200) {
+          setUpdatedAddress(true)
+        } else {
+          setStatus(response.status);
+        }
+      } else {
+        if (response.status) {
+          setStatus(response.status);
+        } else {
+          setStatus("networkError");
+        }
+      }
+    } catch(error) {
+      setStatus(909);
+    }
+  }
+
+  const updatePersonal = async (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const elements = {
+      company: data.get('company'),
+      website: data.get('website'),
+    }
+    try {
+      const response = await apiUpdateProfile(elements);
+      if (response.data) {
+        if (response.status === 200) {
+          setUpdatedPersonal(true)
+        } else {
+          setStatus(response.status);
+        }
+      } else {
+        if (response.status) {
+          setStatus(response.status);
+        } else {
+          setStatus("networkError");
+        }
+      }
+    } catch(error) {
+      setStatus(909);
+    }
+  }
+
   const steps = ['Account', 'Address', 'Personal', 'Password'];
 
   function getStepContent(step) {
@@ -185,28 +258,31 @@ export default function Checkout({setStatus}) {
           update={updateAccount}
           sendStatus={sendStatus}
           updated={updatedAccount}
+          initialData={initialData}
         />;
       case 1:
         return <AddressForm 
-          address={address}
+          street={street}
           city={city}
           state={state}
           zipcode={zipcode}
           country={country}
           phone={phone}
           handleChange={handleChange}
-          // update={updateAddress}
-          // updated={updatedAddress}
-          // setUpdated={setUpdatedAddress}
+          update={updateAddress}
+          sendStatus={sendStatus}
+          updated={updatedAddress}
+          initialData={initialData}
         />;
       case 2:
         return <PersonalForm 
           company={company}
           website={website}
           handleChange={handleChange}
-          // update={updatePersonal}
-          // updated={updatedPersonal}
-          // setUpdated={setUpdatedPersonal}
+          update={updatePersonal}
+          sendStatus={sendStatus}
+          updated={updatedPersonal}
+          initialData={initialData}
         />;
       case 3:
         return <PasswordForm 
@@ -236,7 +312,7 @@ export default function Checkout({setStatus}) {
             setLastName(response.data.lastName);
             setEmail(response.data.email);
             setUsername(response.data.username);
-            setAddress(response.data.address.address);
+            setStreet(response.data.address.street);
             setCity(response.data.address.city);
             setState(response.data.address.state);
             setZipcode(response.data.address.zipcode);
@@ -244,6 +320,7 @@ export default function Checkout({setStatus}) {
             setPhone(response.data.phone);
             setWebsite(response.data.website);
             setCompany(response.data.company);
+            setInitialData(response.data);
             return true;
           } else {
             setStatus(response.status);

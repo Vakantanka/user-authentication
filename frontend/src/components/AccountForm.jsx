@@ -5,9 +5,6 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-
 export default function AccountForm({
   firstName, 
   lastName,
@@ -16,13 +13,14 @@ export default function AccountForm({
   handleChange,
   update,
   sendStatus,
-  updated
+  updated,
+  initialData
 }) {
 
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
-        Account data
+        Account
       </Typography>
       <Box component="form" noValidate onSubmit={update} sx={{ mt: 1 }}>
         <Grid container spacing={3}>

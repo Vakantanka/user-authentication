@@ -143,29 +143,51 @@ const getReset = async (code, password) => {
 }
 
 const getProfileData = async (userId) => {
+  let fullProfile = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    username: '',
+    address: {
+      street: '',
+      city: '',
+      state: '',
+      zipcode: '',
+      country: ''
+    },
+    phone: '',
+    website: '',
+    company: ''
+  }
+
   try {
-    const profile = await Profile.findOne({userId: userId});
     const user = await User.findById(userId);
-    const fullProfile = {
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      username: user.username,
-      address: {
-        address: profile.address.address || '',
-        city: profile.address.city || '',
-        state: profile.address.state || '',
-        zipcode: profile.address.zipcode || '',
-        country: profile.address.country || ''
-      },
-      phone: profile.phone || '',
-      website: profile.website || '',
-      company: profile.company || ''
+    fullProfile.firstName = user.firstName;
+    fullProfile.lastName = user.lastName;
+    fullProfile.email = user.email;
+    fullProfile.username = user.username;
+    try {
+      const profile = await Profile.findOne({userId: userId});
+      fullProfile.address.street = profile.address.street || '',
+      fullProfile.address.city = profile.address.city || '',
+      fullProfile.address.state = profile.address.state || '',
+      fullProfile.address.zipcode = profile.address.zipcode || '',
+      fullProfile.address.country = profile.address.country || ''
+      fullProfile.phone = profile.phone || '',
+      fullProfile.website = profile.website || '',
+      fullProfile.company = profile.company || ''
+      return fullProfile;
+    } catch (error) {
+      try {
+        const profile = new Profile({userId: userId});
+        const newProfile = await profile.save();
+        return fullProfile
+      } catch (error) {
+        console.log(`Could not fetch profile ${error}`)
+      }
     }
-    // console.log(user);
-    return fullProfile;
-  } catch (error) {
-    console.log(`Could not fetch entity ${error}`)
+  } catch (err) {
+    console.log(`Could not fetch profile ${error}`)
   }
 }
 
@@ -178,6 +200,17 @@ const updateUser = async (id, userdata) => {
   }
 }
 
+const updateProfile = async (id, profileData) => {
+  console.log(profileData);
+  try {
+    const profile = await Profile.findOneAndUpdate({userId: id}, profileData);
+    return profile;
+  } catch (error) {
+    console.log(`Could not save profile ${error}`)
+  }
+}
+
+
 module.exports = { 
   getUserByUserName, 
   getUserByData, 
@@ -188,5 +221,6 @@ module.exports = {
   passwordReset, 
   getReset,
   getProfileData,
-  updateUser
+  updateUser,
+  updateProfile
 }

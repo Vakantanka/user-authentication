@@ -222,6 +222,23 @@ const apiUpdateAccount = async (elements) => {
   }
 }
 
+const apiUpdateProfile = async (elements) => {
+  try {
+    const response = await http.post(
+      myBackEndURL + "/user/updateAddress",
+      elements,
+      {
+        headers: {
+        "x-access-token": localStorage.getItem('token'),
+        }
+      }
+    );
+    return (response);
+  } catch (error) {
+    if (!error.response) return (error);
+    return error.response;
+  }
+}
 
 module.exports = { 
 
@@ -239,5 +256,6 @@ module.exports = {
   apiFindAnotherUserByUsername,
   apiFindAnotherUserByEmail,
   apiUpdateAccount,
+  apiUpdateProfile,
 
 }

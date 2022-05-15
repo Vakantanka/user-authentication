@@ -13,5 +13,6 @@ router.get("/profile", [authJwt.verifyToken], UserCtrl.apiGetProfileData);
 router.post("/findAnotherUserByUsername", [authJwt.verifyToken], UserCtrl.apiFindAnotherUserByUsername);
 router.post("/findAnotherUserByEmail", [authJwt.verifyToken], UserCtrl.apiFindAnotherUserByEmail);
 router.post("/updateAccount", [authJwt.verifyToken], UserCtrl.apiUpdateAccount);
+router.post("/updateAddress", [authJwt.verifyToken], UserCtrl.apiUpdateAddress);
 
 module.exports = router
