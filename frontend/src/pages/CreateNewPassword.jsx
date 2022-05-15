@@ -13,7 +13,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 
 import { apiReset } from '../api/auth.api';
 
-export default function PasswordChange({setStatus}) {
+export default function CreateNewPassword({setStatus}) {
   const [sendStatus, setSendStatus] = useState(false);
   const [reseted, setReseted] = useState(false);
   const [password, setPassword] = useState("");

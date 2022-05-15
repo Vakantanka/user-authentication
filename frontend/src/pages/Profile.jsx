@@ -3,38 +3,21 @@ import { useState, useEffect } from 'react'
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import AccountForm from '../components/AccountForm';
-import AddressForm from '../components/AddressForm';
-import PersonalForm from '../components/PersonalForm';
-import PasswordForm from '../components/PasswordForm';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
 
 import { 
-  apiFindAnotherUserByEmail, 
-  apiFindAnotherUserByUsername, 
   apiGetProfileData,
-  apiUpdateAccount,
   apiUpdateProfile, 
 } from '../api/auth.api';
 
-export default function Checkout({setStatus}) {
-  const [activeStep, setActiveStep] = React.useState(0);
-  
+export default function Profile({setStatus}) {
   const [sendStatus, setSendStatus] = useState(false);
 
-  const [updatedAccount, setUpdatedAccount] = useState(false);
-  const [updatedAddress, setUpdatedAddress] = useState(false);
-  const [updatedPersonal, setUpdatedPersonal] = useState(false);
-  const [updatedPassword, setUpdatedPassword] = useState(false);
+  const [updated, setUpdated] = useState(false);
 
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
   const [street, setStreet] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
@@ -44,13 +27,7 @@ export default function Checkout({setStatus}) {
   const [website, setWebsite] = useState("");
   const [company, setCompany] = useState("");
 
-  const [initialData, setInitialData] = useState(false)
-
   const [errors, setErrors] = useState({
-    firstName: '',
-    lastName: '',
-    username: '',
-    email: '',
     street: '',
     city: '',
     state: '',
@@ -63,51 +40,12 @@ export default function Checkout({setStatus}) {
 
   const handleChange = async (event) => {
     const {name, value} = event.target;
-    const regexEmail = /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,15}$/;
-    const regexUsername = /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/;
     const regexPhone = /(\+\d{1,3}\s?)?((\(\d{3}\)\s?)|(\d{3})(\s|-?))(\d{3}(\s|-?))(\d{4})(\s?(([E|e]xt[:|.|]?)|x|X)(\s?\d+))?/g;
     const regexURL = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/;
 
     let updatedErrors = errors
 
     switch (name) {
-      case 'firstName': 
-        if (value.length < 5) {
-          updatedErrors.firstName = 'The name must be 5 characters length!'
-        } else {
-          updatedErrors.firstName = '';
-        }
-        setFirstName(value);
-        break;
-      case 'lastName': 
-        setLastName(value);
-        break;
-      case 'username': 
-        if (!regexUsername.test(value)) {
-          updatedErrors.username = 'The username must be 8-20 aplhanumeric characters!';
-        } else {
-          let answer = await apiFindAnotherUserByUsername(name,value)
-          if ( answer === 204 ) {
-            updatedErrors.username = 'Reserved username.'
-          } else {
-            updatedErrors.username = '';
-          }
-        }
-        setUsername(value);
-        break;
-      case 'email':
-        if (!regexEmail.test(value)) {
-          updatedErrors.email = 'Wrong e-mail address!'
-        } else {
-          let answer = await apiFindAnotherUserByEmail(name,value)
-          if ( answer === 204 ) {
-            updatedErrors.email = 'Reserved email address.'
-          } else {
-            updatedErrors.email = '';
-          }
-        }
-        setEmail(value);
-        break;
       case 'street':
         setStreet(value);
         break;
@@ -154,37 +92,7 @@ export default function Checkout({setStatus}) {
     })
   };
 
-  const updateAccount = async (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const elements = {
-      firstName: data.get('firstName'),
-      lastName: data.get('lastName'),
-      username: data.get('username'),
-      email: data.get('email'),
-    }
-    try {
-      const response = await apiUpdateAccount(elements);
-      if (response.data) {
-        if (response.status === 200) {
-          // setStatus(response.status)
-          setUpdatedAccount(true)
-        } else {
-          setStatus(response.status);
-        }
-      } else {
-        if (response.status) {
-          setStatus(response.status);
-        } else {
-          setStatus("networkError");
-        }
-      }
-    } catch(error) {
-      setStatus(909);
-    }
-  }
-
-  const updateAddress = async (event) => {
+  const updateProfile = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const elements = {
@@ -193,34 +101,9 @@ export default function Checkout({setStatus}) {
         city: data.get('city'),
         state: data.get('state'),
         zipcode: data.get('zipcode'),
-        country: data.get('country')
+        country: data.get('country'),
       },
       phone: data.get('phone'),
-    }
-    try {
-      const response = await apiUpdateProfile(elements);
-      if (response.data) {
-        if (response.status === 200) {
-          setUpdatedAddress(true)
-        } else {
-          setStatus(response.status);
-        }
-      } else {
-        if (response.status) {
-          setStatus(response.status);
-        } else {
-          setStatus("networkError");
-        }
-      }
-    } catch(error) {
-      setStatus(909);
-    }
-  }
-
-  const updatePersonal = async (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const elements = {
       company: data.get('company'),
       website: data.get('website'),
     }
@@ -228,7 +111,7 @@ export default function Checkout({setStatus}) {
       const response = await apiUpdateProfile(elements);
       if (response.data) {
         if (response.status === 200) {
-          setUpdatedPersonal(true)
+          setUpdated(true)
         } else {
           setStatus(response.status);
         }
@@ -243,63 +126,6 @@ export default function Checkout({setStatus}) {
       setStatus(909);
     }
   }
-
-  const steps = ['Account', 'Address', 'Personal', 'Password'];
-
-  function getStepContent(step) {
-    switch (step) {
-      case 0:
-        return <AccountForm 
-          firstName={firstName} 
-          lastName={lastName} 
-          email={email}
-          username={username}
-          handleChange={handleChange}
-          update={updateAccount}
-          sendStatus={sendStatus}
-          updated={updatedAccount}
-          initialData={initialData}
-        />;
-      case 1:
-        return <AddressForm 
-          street={street}
-          city={city}
-          state={state}
-          zipcode={zipcode}
-          country={country}
-          phone={phone}
-          handleChange={handleChange}
-          update={updateAddress}
-          sendStatus={sendStatus}
-          updated={updatedAddress}
-          initialData={initialData}
-        />;
-      case 2:
-        return <PersonalForm 
-          company={company}
-          website={website}
-          handleChange={handleChange}
-          update={updatePersonal}
-          sendStatus={sendStatus}
-          updated={updatedPersonal}
-          initialData={initialData}
-        />;
-      case 3:
-        return <PasswordForm 
-          handleChange={handleChange}
-        />;
-      default:
-        throw new Error('Unknown step');
-    }
-  }
-  
-  const handleNext = () => {
-    setActiveStep(activeStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep(activeStep - 1);
-  };
 
   useEffect(() => {
     const init = async () => {
@@ -308,10 +134,6 @@ export default function Checkout({setStatus}) {
         if (response.data) {
           if (response.status === 200) {
             setStatus(false);
-            setFirstName(response.data.firstName);
-            setLastName(response.data.lastName);
-            setEmail(response.data.email);
-            setUsername(response.data.username);
             setStreet(response.data.address.street);
             setCity(response.data.address.city);
             setState(response.data.address.state);
@@ -320,7 +142,6 @@ export default function Checkout({setStatus}) {
             setPhone(response.data.phone);
             setWebsite(response.data.website);
             setCompany(response.data.company);
-            setInitialData(response.data);
             return true;
           } else {
             setStatus(response.status);
@@ -343,60 +164,145 @@ export default function Checkout({setStatus}) {
     <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
       <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
         <Typography component="h1" variant="h4" align="center">
-          Profile
+          Profile  { updated && "updated" }
         </Typography>
-        <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
-          {steps.map((label) => (
-            <Step key={label}>
-              <StepLabel>{label}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
-        <React.Fragment>
-          {activeStep === steps.length ? (
-            <React.Fragment>
-              <Typography variant="h5" gutterBottom>
-                Update
-              </Typography>
-              <Typography variant="subtitle1">
-                Your profile is updated.
-              </Typography>
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              {getStepContent(activeStep)}
-              <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                {activeStep !== 0 && (
-                  <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                    Back
-                  </Button>
-                )}
-
-                {/* <Button
-                  variant="contained"
-                  onClick={handleNext}
-                  sx={{ mt: 3, ml: 1 }}
-                > */}
-                  {/* {activeStep === steps.length - 1 ? 'Update profile' : 'Next'} */}
-                  {activeStep !== steps.length - 1 && 
-                    <Button
-                    variant="contained"
-                    onClick={handleNext}
-                    sx={{ mt: 3, ml: 1 }}
-                  >Next
-                  </Button>
-                }
-              </Box>
+        <Box component="form" noValidate onSubmit={updateProfile} sx={{ mt: 1 }}>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <TextField
+                value={street} onChange={handleChange}
+                id="street"
+                name="street"
+                label="Street"
+                fullWidth
+                autoComplete="Street"
+                variant="standard"
+                disabled={updated}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                value={city} onChange={handleChange}
+                id="city"
+                name="city"
+                label="City"
+                fullWidth
+                autoComplete="City"
+                variant="standard"
+                disabled={updated}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                value={state} onChange={handleChange}
+                id="state"
+                name="state"
+                label="State/Province/Region"
+                fullWidth
+                variant="standard"
+                disabled={updated}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                value={zipcode} onChange={handleChange}
+                id="zipcode"
+                name="zipcode"
+                label="Zip / Postal code"
+                fullWidth
+                autoComplete="Postal code"
+                variant="standard"
+                disabled={updated}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                value={country} onChange={handleChange}
+                id="country"
+                name="country"
+                label="Country"
+                fullWidth
+                autoComplete="Country"
+                variant="standard"
+                disabled={updated}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                value={phone} onChange={handleChange}
+                id="phone"
+                name="phone"
+                label="Phone number"
+                fullWidth
+                autoComplete="phone"
+                variant="standard"
+                disabled={updated}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                value={company} onChange={handleChange}
+                required
+                id="company"
+                name="company"
+                label="Company"
+                fullWidth
+                autoComplete="company"
+                variant="standard"
+                disabled={updated}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                value={website} onChange={handleChange}
+                id="website"
+                name="website"
+                label="Website"
+                fullWidth
+                autoComplete="website"
+                variant="standard"
+                disabled={updated}
+              />
+            </Grid>
+            <Grid item xs={6}>
               <div className="errorMessage">
-                {errors.firstName && <span>{errors.firstName}</span>}
-                {errors.username && <span>{errors.username}</span>}
-                {errors.email && <span>{errors.email}</span>}
-                {errors.password && <span>{errors.password}</span>}
-                {errors.confirmPassword && <span>{errors.confirmPassword}</span>}
+                {errors.street && <span>{errors.street}</span>}
+                {errors.city && <span>{errors.city}</span>}
+                {errors.state && <span>{errors.state}</span>}
+                {errors.zipcode && <span>{errors.zipcode}</span>}
+                {errors.country && <span>{errors.country}</span>}
+                {errors.phone && <span>{errors.phone}</span>}
+                {errors.company && <span>{errors.company}</span>}
+                {errors.website && <span>{errors.website}</span>}
               </div>
-            </React.Fragment>
-          )}
-        </React.Fragment>
+            </Grid>
+            <Grid item xs={6}>
+            </Grid>
+            <Grid item xs={6}>
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                { updated ? 
+                <>
+                <Button 
+                  variant="outlined"
+                  disabled="true"
+                >
+                  Updated
+                </Button>
+                </>
+                :
+                <Button 
+                  type="submit"
+                  variant="contained"
+                  disabled={!sendStatus}
+                >
+                  Update
+                </Button>
+              }
+              </Box>
+            </Grid>
+          </Grid>
+  
+        </Box>
       </Paper>
     </Container>
 );
